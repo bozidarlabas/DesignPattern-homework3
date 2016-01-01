@@ -17,10 +17,12 @@ public class App {
     public static void main(String[] args){
         Registry registry = RegistryBuilder.getRegistry();
         registry.register("arguments", new Arguments(args));
-        WindowView view = new WindowViewImpl();
+        
+        WindowView view = new WindowViewImpl(registry);
         registry.register("windowView", view);
         
         WindowController controller = new WindowControllerImpl(registry);
+        registry.register("windowController", controller);
         controller.showWindow();
     }
 }

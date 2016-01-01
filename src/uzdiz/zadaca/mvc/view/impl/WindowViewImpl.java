@@ -5,38 +5,48 @@
  */
 package uzdiz.zadaca.mvc.view.impl;
 
+import java.util.Scanner;
+import uzdiz.zadaca.mvc.controller.impl.WindowControllerImpl;
 import uzdiz.zadaca.mvc.model.Arguments;
 import uzdiz.zadaca.utils.Constants;
 import uzdiz.zadaca.mvc.view.WindowView;
+import uzdiz.zadaca.registry.Registry;
 
 /**
  *
  * @author Labas
  */
 public class WindowViewImpl implements WindowView {
-    
-     
 
-    public WindowViewImpl() {}
+    private WindowControllerImpl controller;
+    private Scanner scanner = new Scanner(System.in);
+
+    public WindowViewImpl(Registry registry) {
+        controller = (WindowControllerImpl) registry.resolve("windowController");
+    }
+
+    public void onEnterPressed() {
+       String command = scanner.nextLine();
+    }
 
     @Override
     public void drawScreen(int rowNumber, int columnNumber, String frameSeparation) {
         clearScreen();
-        
+
         drawRows(rowNumber, columnNumber);
         drawColumns(rowNumber, columnNumber);
         drawWindow(rowNumber, columnNumber, frameSeparation);
 
         setCusrosrPosition(3, (rowNumber + 1));
         System.out.print("Unos podataka: ");
-        setCusrosrPosition(1, (rowNumber + 2));
+        onEnterPressed();
     }
-    
-        private void clearScreen() {
+
+    private void clearScreen() {
         System.out.print(Constants.ANSI_ESC + "2J");
         System.out.print("\n");
     }
-    
+
     private void drawRows(int rowNumber, int columnNumber) {
         int j = 1;
         //ISCRTAVANJE REDAKA
@@ -66,7 +76,6 @@ public class WindowViewImpl implements WindowView {
                 show(rowNumber / 2, i, 32, "-");
             }
         }
-
     }
 
     private void setCusrosrPosition(int x, int y) {
@@ -88,6 +97,6 @@ public class WindowViewImpl implements WindowView {
 
         }
          */
-
     }
+
 }

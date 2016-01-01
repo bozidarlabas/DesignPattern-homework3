@@ -13,4 +13,6 @@ import uzdiz.zadaca.mvc.model.Arguments;
  */
 public interface WindowView {
     public void drawScreen(int rowNumber, int columnNumber, String frameSeparation);
+    
+    public void onEnterPressed();
 }
