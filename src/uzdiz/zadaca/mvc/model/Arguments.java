@@ -15,15 +15,13 @@ public class Arguments {
     private final String frameSeparation;
     private final String rootDirectory;
     private final int seconds;
-    private final String programName;
     
     public Arguments(String[] args){
-        this.programName = args[0];
-        this.rowNumber = parseString(args[1]);
-        this.columnNumber = parseString(args[2]);
-        this.frameSeparation = args[3];
-        this.rootDirectory = args[4];
-        this.seconds = parseString(args[5]);
+        this.rowNumber = parseString(args[0]);
+        this.columnNumber = parseString(args[1]);
+        this.frameSeparation = args[2];
+        this.rootDirectory = args[3];
+        this.seconds = parseString(args[4]);
     }
 
     public int getRowNumber() {
@@ -50,7 +48,5 @@ public class Arguments {
         return rootDirectory;
     }
 
-    public String getProgramName() {
-        return programName;
-    }
+ 
 }
