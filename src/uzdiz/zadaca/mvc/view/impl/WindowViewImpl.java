@@ -6,8 +6,10 @@
 package uzdiz.zadaca.mvc.view.impl;
 
 import java.util.Scanner;
+import uzdiz.zadaca.facade.FileManager;
 import uzdiz.zadaca.mvc.controller.impl.WindowControllerImpl;
 import uzdiz.zadaca.mvc.model.Arguments;
+import uzdiz.zadaca.mvc.model.Element;
 import uzdiz.zadaca.utils.Constants;
 import uzdiz.zadaca.mvc.view.WindowView;
 import uzdiz.zadaca.registry.Registry;
@@ -26,7 +28,7 @@ public class WindowViewImpl implements WindowView {
     }
 
     public void onEnterPressed() {
-       String command = scanner.nextLine();
+      // String command = scanner.nextLine();
     }
 
     @Override
@@ -97,6 +99,15 @@ public class WindowViewImpl implements WindowView {
 
         }
          */
+    }
+
+    @Override
+    public void showFirstScreenData(Element rootElement) {
+        FileManager manager = new FileManager();
+
+        String filee = manager.printDirectoryTree(rootElement);
+        
+       System.out.println(filee);
     }
 
 }

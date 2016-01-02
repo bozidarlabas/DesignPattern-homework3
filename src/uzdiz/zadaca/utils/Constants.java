@@ -14,4 +14,8 @@ public final class Constants {
     
     public static final String ANSI_ESC = "\033[";
     
+    public static final String FILE = "File";
+    
+    public static final String DIRECTORY = "Directory";
+    
 }

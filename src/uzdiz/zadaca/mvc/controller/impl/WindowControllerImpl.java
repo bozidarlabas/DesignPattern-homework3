@@ -7,6 +7,7 @@ package uzdiz.zadaca.mvc.controller.impl;
 
 import uzdiz.zadaca.mvc.controller.WindowController;
 import uzdiz.zadaca.mvc.model.Arguments;
+import uzdiz.zadaca.mvc.model.Element;
 import uzdiz.zadaca.mvc.view.WindowView;
 import uzdiz.zadaca.registry.Registry;
 
@@ -16,17 +17,29 @@ import uzdiz.zadaca.registry.Registry;
  */
 public class WindowControllerImpl implements WindowController{
 
-    private final Arguments model;
+    private final Arguments arguments;
+    private final Element model;
     private final WindowView view;
     
-    public WindowControllerImpl(Registry registry){
-        this.model = (Arguments) registry.resolve("arguments");
+    public WindowControllerImpl(Registry registry, Element model){
+        this.arguments = (Arguments) registry.resolve("arguments");
         this.view = (WindowView) registry.resolve("windowView");
+        this.model = model;
     }
             
     @Override
     public void showWindow() {
-        view.drawScreen(model.getRowNumber(), model.getColumnNumber(), model.getFrameSeparation());
+        view.drawScreen(arguments.getRowNumber(), arguments.getColumnNumber(), arguments.getFrameSeparation());
+    }
+
+    @Override
+    public void showFirstWindowData() {
+        view.showFirstScreenData(model);
+    }
+
+    @Override
+    public void showSecondWindowData() {
+        
     }
     
 }

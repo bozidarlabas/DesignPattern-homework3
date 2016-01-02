@@ -10,5 +10,10 @@ package uzdiz.zadaca.mvc.controller;
  * @author Labas
  */
 public interface WindowController {
+    
     public void showWindow();
+    
+    public void showFirstWindowData();
+    
+    public void showSecondWindowData();
 }

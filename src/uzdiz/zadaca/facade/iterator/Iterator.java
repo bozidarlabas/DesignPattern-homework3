@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uzdiz.zadaca.mvc.model;
+package uzdiz.zadaca.facade.iterator;
 
 /**
  *
  * @author Labas
  */
-public class Directory {
-    
+public interface Iterator {
+   public boolean hasNext();
+   public Object next();
 }

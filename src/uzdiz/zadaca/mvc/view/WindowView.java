@@ -6,6 +6,7 @@
 package uzdiz.zadaca.mvc.view;
 
 import uzdiz.zadaca.mvc.model.Arguments;
+import uzdiz.zadaca.mvc.model.Element;
 
 /**
  *
@@ -13,6 +14,8 @@ import uzdiz.zadaca.mvc.model.Arguments;
  */
 public interface WindowView {
     public void drawScreen(int rowNumber, int columnNumber, String frameSeparation);
+    
+    public void showFirstScreenData(Element element);
     
     public void onEnterPressed();
 }
