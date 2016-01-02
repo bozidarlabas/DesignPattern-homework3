@@ -11,11 +11,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import uzdiz.zadaca.facade.iterator.Iterator;
 import uzdiz.zadaca.listener.OnDataLoaded;
+import uzdiz.zadaca.mvc.model.Arguments;
 import uzdiz.zadaca.mvc.model.Element;
+import uzdiz.zadaca.registry.Registry;
 import uzdiz.zadaca.utils.Constants;
 
 /**
@@ -32,10 +32,13 @@ public class FileManager {
     private int positionYRightWindow = 1;
     private int createdDirectoriesNum, createdFilesNum;
     private long size;
+    private Arguments arguments;
+    private boolean isEndOfFile = false;
 
-    public FileManager(OnDataLoaded listener) {
+    public FileManager(OnDataLoaded listener, Registry registry) {
         rootElement = new Element();
         this.listener = listener;
+        this.arguments = (Arguments) registry.resolve("arguments");
     }
     
     public FileManager(){
@@ -124,9 +127,7 @@ public class FileManager {
     
     public void printDirectoryTree(Element element) {
         this.size = element.getSize();
-        
-        
-        
+
         
         positionYLeftWindow = 1;
         positionYRightWindow = 1;
@@ -155,7 +156,12 @@ public class FileManager {
         sb.append("\n");
         sleep();
         positionYLeftWindow++;
-        listener.showDataOnLeftWindow(sb, positionYLeftWindow);
+        
+        if(( isEndOfFile = checkEndOfLine())){
+            sb.append(Constants.ANSI_ESC + "2J");
+            positionYLeftWindow = 1;
+        }
+        listener.showDataOnLeftWindow(sb, positionYLeftWindow, isEndOfFile);
         createdDirectoriesNum++;
         
         listener.showDataOnRightWindow(createdDirectoriesNum, createdFilesNum, this.size, 2);
@@ -169,6 +175,10 @@ public class FileManager {
         }
     }
 
+    private boolean checkEndOfLine(){
+        return this.arguments.getRowNumber() == positionYLeftWindow;
+    }
+    
     private void printFile(Element element, int indent) {
         StringBuilder sb = new StringBuilder();
         sb.append(getIndentString(indent));
@@ -181,7 +191,13 @@ public class FileManager {
         sleep();
         positionYLeftWindow++;
         createdFilesNum++;
-        listener.showDataOnLeftWindow(sb, positionYLeftWindow);
+        
+        if(( isEndOfFile = checkEndOfLine())){
+            sb.append(Constants.ANSI_ESC + "2J");
+            positionYLeftWindow = 1;
+        }
+        
+        listener.showDataOnLeftWindow(sb, positionYLeftWindow, isEndOfFile);
         listener.showDataOnRightWindow(createdDirectoriesNum, createdFilesNum, this.size, indent);
     }
 

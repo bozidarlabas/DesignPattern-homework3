@@ -32,7 +32,7 @@ public class VerticalViewImpl extends BaseView implements OnDataLoaded {
     @Override
     public void showData(Element rootElement, int rowNumber) {
         init();
-        FileManager manager = new FileManager(this);
+        FileManager manager = new FileManager(this, registry);
         manager.printDirectoryTree(rootElement);
     }
 
@@ -46,9 +46,17 @@ public class VerticalViewImpl extends BaseView implements OnDataLoaded {
     }
 
     @Override
-    public void showDataOnLeftWindow(StringBuilder sb, int positionY) {
+    public void showDataOnLeftWindow(StringBuilder sb, int positionY, boolean endOfScreen) {
         setCusrosrPosition(2, positionY);
+
         System.out.print(sb);
+        
+        if (endOfScreen) {
+            rewriteScreen();
+        }
+        
+        
+        
     }
 
     @Override
@@ -66,5 +74,7 @@ public class VerticalViewImpl extends BaseView implements OnDataLoaded {
     public void finished() {
         setCusrosrPosition(3, (rowNumber + 2));
     }
+
+    
 
 }

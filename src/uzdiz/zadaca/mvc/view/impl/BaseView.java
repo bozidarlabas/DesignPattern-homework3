@@ -22,8 +22,11 @@ public abstract class BaseView {
     private Scanner scanner = new Scanner(System.in);
     public int rowNumber;
     public int columnNumber;
+    String frameSeparation;
+    public Registry registry;
 
     public BaseView(Registry registry) {
+        this.registry = registry;
         controller = (WindowControllerImpl) registry.resolve("windowController");
     }
 
@@ -39,6 +42,7 @@ public abstract class BaseView {
         clearScreen();
         this.rowNumber = rowNumber;
         this.columnNumber = columnNumber;
+        this.frameSeparation = frameSeparation;
 
         drawRows(rowNumber, columnNumber);
         drawColumns(rowNumber, columnNumber);
@@ -70,6 +74,17 @@ public abstract class BaseView {
             show(rowNumber + 2, i, 32, "-");
             show(rowNumber, i, 32, "-");
         }
+    }
+    
+    public void rewriteScreen() {
+
+        drawRows(rowNumber, columnNumber);
+        drawColumns(rowNumber, columnNumber);
+        drawWindow(rowNumber, columnNumber, frameSeparation);
+
+        setCusrosrPosition(3, (rowNumber + 1));
+        System.out.print("Unos podataka: ");
+        onEnterPressed();
     }
 
     public void setCusrosrPosition(int x, int y) {
