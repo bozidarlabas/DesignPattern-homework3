@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.HashMap;
 import uzdiz.zadaca.facade.iterator.Iterator;
 import uzdiz.zadaca.listener.OnDataLoaded;
 import uzdiz.zadaca.mvc.model.Arguments;
@@ -30,19 +31,20 @@ public class FileManager {
     private OnDataLoaded listener;
     private int positionYLeftWindow = 1;
     private int positionYRightWindow = 1;
-    private int createdDirectoriesNum, createdFilesNum;
+    public int createdDirectoriesNum, createdFilesNum;
     private long size;
     private Arguments arguments;
     private boolean isEndOfFile = false;
+    private String display;
 
     public FileManager(OnDataLoaded listener, Registry registry) {
         rootElement = new Element();
         this.listener = listener;
         this.arguments = (Arguments) registry.resolve("arguments");
     }
-    
-    public FileManager(){
-         rootElement = new Element();
+
+    public FileManager() {
+        rootElement = new Element();
     }
 
     long directorySize;
@@ -124,11 +126,10 @@ public class FileManager {
         return this.rootElement;
     }
 
-    
-    public void printDirectoryTree(Element element) {
+    public void printDirectoryTree(Element element, String display) {
         this.size = element.getSize();
+        this.display = display;
 
-        
         positionYLeftWindow = 1;
         positionYRightWindow = 1;
         if (!element.getType().equals(Constants.DIRECTORY)) {
@@ -144,26 +145,22 @@ public class FileManager {
         if (!element.getType().equals(Constants.DIRECTORY)) {
             throw new IllegalArgumentException("folder is not a Directory");
         }
-        StringBuilder sb = new StringBuilder();
 
-        sb.append(getIndentString(indent));
-        sb.append("+--");
-        sb.append(element.getName());
-        sb.append(" (");
-        sb.append(element.getSize());
-        sb.append(" B)");
-        sb.append("/");
-        sb.append("\n");
         sleep();
-        positionYLeftWindow++;
-        
-        if(( isEndOfFile = checkEndOfLine())){
-            sb.append(Constants.ANSI_ESC + "2J");
+
+        if (display.equals(Constants.DATA)) {
+            positionYLeftWindow++;
+        } else if (display.equals(Constants.STRUCTURE)) {
+            positionYLeftWindow += 3;
+        }
+
+        if ((isEndOfFile = checkEndOfLine())) {
             positionYLeftWindow = 1;
         }
-        listener.showDataOnLeftWindow(sb, positionYLeftWindow, isEndOfFile);
+
+        listener.showDataOnLeftWindow(element, indent, positionYLeftWindow, isEndOfFile);
         createdDirectoriesNum++;
-        
+
         listener.showDataOnRightWindow(createdDirectoriesNum, createdFilesNum, this.size, 2);
         for (Iterator iter = element.getIterator(); iter.hasNext();) {
             Element elementModel = (Element) iter.next();
@@ -175,29 +172,33 @@ public class FileManager {
         }
     }
 
-    private boolean checkEndOfLine(){
-        return this.arguments.getRowNumber() == positionYLeftWindow;
+    private boolean checkEndOfLine() {
+        if (display.equals(Constants.STRUCTURE)) {
+            if ((positionYLeftWindow + 10) >= this.arguments.getRowNumber()) {
+                return true;
+            }
+        }
+        if (positionYLeftWindow >= this.arguments.getRowNumber()) {
+            return true;
+        }
+        return false;
     }
-    
+
     private void printFile(Element element, int indent) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getIndentString(indent));
-        sb.append("+--");
-        sb.append(element.getName());
-        sb.append(" (");
-        sb.append(element.getSize());
-        sb.append(" B)");
-        sb.append("\n");
+
         sleep();
-        positionYLeftWindow++;
-        createdFilesNum++;
-        
-        if(( isEndOfFile = checkEndOfLine())){
-            sb.append(Constants.ANSI_ESC + "2J");
+        if (display.equals(Constants.DATA)) {
+            positionYLeftWindow++;
+        } else if (display.equals(Constants.STRUCTURE)) {
+            positionYLeftWindow += 3;
+        }
+
+        if ((isEndOfFile = checkEndOfLine())) {
             positionYLeftWindow = 1;
         }
-        
-        listener.showDataOnLeftWindow(sb, positionYLeftWindow, isEndOfFile);
+        createdFilesNum++;
+
+        listener.showDataOnLeftWindow(element, indent, positionYLeftWindow, isEndOfFile);
         listener.showDataOnRightWindow(createdDirectoriesNum, createdFilesNum, this.size, indent);
     }
 
@@ -206,14 +207,6 @@ public class FileManager {
             Thread.sleep(300);
         } catch (InterruptedException ex) {
         }
-    }
-
-    private String getIndentString(int indent) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < indent; i++) {
-            sb.append("|  ");
-        }
-        return sb.toString();
     }
 
 }

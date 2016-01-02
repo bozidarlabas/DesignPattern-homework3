@@ -21,15 +21,16 @@ public class RegistryBuilder {
     public static void buildRegistry(String args[], Element elementModel, Registry registry) {
         Arguments arguments = new Arguments(args);
         registry.register("arguments", arguments);
-
-        registry.register("windowView", getCurrentView(arguments.getFrameSeparation(), registry));
+        
+        BaseView view = getCurrentView(arguments.getFrameSeparation());
+        registry.register("windowView", view);
         
         WindowController controller = new WindowControllerImpl(registry, elementModel);
         registry.register("windowController", controller);
-
+        
         registry.register("elementModel", elementModel);
         
-       
+        view.setRegistry(registry);
     }
 
     public static Registry getRegistry(String args[], Element elementModel) {
@@ -38,15 +39,15 @@ public class RegistryBuilder {
         return registry;
     }
 
-    public static BaseView getCurrentView(String viewType, Registry registry) {
+    public static BaseView getCurrentView(String viewType) {
         BaseView view = null;
         
         switch(viewType){
             case Constants.HORIZONTAL:
-                view = new HorizontalViewImpl(registry);
+                view = new HorizontalViewImpl();
                 break;
             case Constants.VERTICAL:
-                view = new VerticalViewImpl(registry);
+                view = new VerticalViewImpl();
                 break;
         }
         return view;

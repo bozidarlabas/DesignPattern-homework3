@@ -27,4 +27,8 @@ public final class Constants {
      public static final String CREATED_FILES = "Broj kreiranih datoteka: ";
      
      public static final String SIZE = "Ukupna velicina: ";
+     
+     public static final String DATA = "ShowData";
+     
+     public static final String STRUCTURE = "ShowStructure";
 }

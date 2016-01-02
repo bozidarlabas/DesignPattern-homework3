@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Labas/Desktop/uzdiz/T1_08_zadaca_3/src/uzdiz/zadaca/mvc/view/impl/VerticalViewImpl.java</file>
             <file>file:/C:/Users/Labas/Desktop/uzdiz/T1_08_zadaca_3/src/uzdiz/zadaca/facade/FileManager.java</file>
-            <file>file:/C:/Users/Labas/Desktop/uzdiz/T1_08_zadaca_3/src/uzdiz/zadaca/App.java</file>
-            <file>file:/C:/Users/Labas/Desktop/uzdiz/T1_08_zadaca_3/src/uzdiz/zadaca/mvc/model/Element.java</file>
+            <file>file:/C:/Users/Labas/Desktop/uzdiz/T1_08_zadaca_3/src/uzdiz/zadaca/mvc/view/impl/BaseView.java</file>
+            <file>file:/C:/Users/Labas/Desktop/uzdiz/T1_08_zadaca_3/src/uzdiz/zadaca/listener/OnDataLoaded.java</file>
         </group>
     </open-files>
 </project-private>

@@ -7,6 +7,8 @@ package uzdiz.zadaca.mvc.view.impl;
 
 import uzdiz.zadaca.facade.FileManager;
 import uzdiz.zadaca.listener.OnDataLoaded;
+import uzdiz.zadaca.mvc.controller.WindowController;
+import uzdiz.zadaca.mvc.controller.impl.WindowControllerImpl;
 import uzdiz.zadaca.mvc.model.Element;
 import uzdiz.zadaca.registry.Registry;
 import uzdiz.zadaca.utils.Constants;
@@ -15,11 +17,9 @@ import uzdiz.zadaca.utils.Constants;
  *
  * @author Labas
  */
-public class VerticalViewImpl extends BaseView implements OnDataLoaded {
+public class VerticalViewImpl extends BaseView {
 
-    public VerticalViewImpl(Registry registry) {
-        super(registry);
-    }
+    private WindowController controller;
 
     @Override
     public void drawWindow(int rowNumber, int columnNumber, String frameSeparation) {
@@ -32,8 +32,6 @@ public class VerticalViewImpl extends BaseView implements OnDataLoaded {
     @Override
     public void showData(Element rootElement, int rowNumber) {
         init();
-        FileManager manager = new FileManager(this, registry);
-        manager.printDirectoryTree(rootElement);
     }
 
     private void init() {
@@ -45,21 +43,38 @@ public class VerticalViewImpl extends BaseView implements OnDataLoaded {
         System.out.println(Constants.SIZE);
     }
 
-    @Override
-    public void showDataOnLeftWindow(StringBuilder sb, int positionY, boolean endOfScreen) {
+    public void showDataOnLeftWindow(Element element, int indent, int positionY, boolean endOfScreen) {
         setCusrosrPosition(2, positionY);
 
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(getIndentString(indent));
+        sb.append("+--");
+        sb.append(element.getName());
+        // sb.append(" (");
+        // sb.append(element.getSize());
+        // sb.append(" B)");
+        sb.append("/");
+        sb.append("\n");
+        if (endOfScreen) {
+            sb.append(Constants.ANSI_ESC + "2J");
+        }
+
         System.out.print(sb);
-        
+
         if (endOfScreen) {
             rewriteScreen();
         }
-        
-        
-        
     }
 
-    @Override
+    private String getIndentString(int indent) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < indent; i++) {
+            sb.append("|  ");
+        }
+        return sb.toString();
+    }
+
     public void showDataOnRightWindow(int createdDirectoriesNum, int cretedFilesNum, long size, int positionY) {
         setCusrosrPosition((columnNumber / 2) + 1, 2);
         System.out.println(Constants.CREATED_DIR + createdDirectoriesNum);
@@ -67,14 +82,74 @@ public class VerticalViewImpl extends BaseView implements OnDataLoaded {
         System.out.println(Constants.CREATED_FILES + cretedFilesNum);
         setCusrosrPosition((columnNumber / 2) + 1, 4);
         System.out.println(Constants.SIZE + size + " B");
+    }
+
+    public void finished() {
+        setCusrosrPosition(3, (rowNumber + 2));
+        onEnterPressed();
+    }
+
+    public void onEnterPressed() {
+        setCusrosrPosition(3, (rowNumber + 1));
+        System.out.print("Unos podataka: ");
+        int command = Integer.parseInt(scanner.nextLine());
+        switch (command) {
+            case 1:
+                controller.selectCommandOne();
+                break;
+            case 2:
+                controller.selectCommandTwo();
+                break;
+        }
 
     }
 
     @Override
-    public void finished() {
-        setCusrosrPosition(3, (rowNumber + 2));
+    public void showElementsNumber(int directoryNumber, int filesNumber) {
+        clearScreen();
+        rewriteScreen();
+        setCusrosrPosition(2, 2);
+        System.out.println(Constants.CREATED_DIR + directoryNumber);
+        setCusrosrPosition(2, 3);
+        System.out.println(Constants.CREATED_FILES + filesNumber);
+        finished();
     }
 
-    
+    @Override
+    public void setController(WindowController controller) {
+        this.controller = controller;
+    }
+
+    @Override
+    public void showAllData(Element element, int indent, int positionY, boolean endOfScreen) {
+        
+
+        StringBuilder sb = new StringBuilder();
+
+        //sb.append(getIndentString(indent));
+        sb.append("|+");
+        sb.append(element.getName());
+        sb.append("\n");
+        sb.append("|  Datum kreiranja: " + element.getDateCreated());
+        sb.append("\n");
+        sb.append("|  Datum modificiranja: " + element.getDateChanged());
+        sb.append("\n");
+        sb.append("|  Velicina: " + element.getSize());
+        // sb.append(" (");
+        // sb.append(element.getSize());
+        // sb.append(" B)");
+        sb.append("/");
+        sb.append("\n");
+        if (endOfScreen) {
+            sb.append(Constants.ANSI_ESC + "2J");
+        }
+
+        System.out.print(sb);
+
+        if (endOfScreen) {
+            rewriteScreen();
+            setCusrosrPosition(2, positionY + 1);
+        }
+    }
 
 }

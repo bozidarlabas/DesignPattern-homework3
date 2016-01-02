@@ -12,9 +12,10 @@ import uzdiz.zadaca.mvc.model.Element;
  * @author Labas
  */
 public interface OnDataLoaded {
-    public void showDataOnLeftWindow(StringBuilder sb, int positionY, boolean endOfScreen);
-    
-    public void showDataOnRightWindow(int createdDirectoriesNum, int cretedFilesNum, long size, int positionY);
 
+    public void showDataOnLeftWindow(Element element, int indent, int positionY, boolean endOfScreen);
+
+    public void showDataOnRightWindow(int createdDirectoriesNum, int cretedFilesNum, long size, int positionY);
+    
     public void finished();
 }

@@ -13,5 +13,11 @@ public interface WindowController {
     
     public void showWindow();
     
+    
     public void showData();
+    
+    public void selectCommandOne();
+    
+    public void selectCommandTwo();
+    
 }

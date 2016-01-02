@@ -6,6 +6,7 @@
 package uzdiz.zadaca.mvc.view.impl;
 
 import uzdiz.zadaca.facade.FileManager;
+import uzdiz.zadaca.mvc.controller.WindowController;
 import uzdiz.zadaca.mvc.model.Element;
 import uzdiz.zadaca.registry.Registry;
 
@@ -15,9 +16,7 @@ import uzdiz.zadaca.registry.Registry;
  */
 public class HorizontalViewImpl extends BaseView {
 
-    public HorizontalViewImpl(Registry registry) {
-        super(registry);
-    }
+  
 
     @Override
     public void drawWindow(int rowNumber, int columnNumber, String frameSeparation) {
@@ -27,9 +26,39 @@ public class HorizontalViewImpl extends BaseView {
         }
     }
 
-
     @Override
     public void showData(Element rootElement, int rowNumber) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void showElementsNumber(int DirectoryNumber, int FilesNumber) {
+
+    }
+
+
+    @Override
+    public void showDataOnRightWindow(int createdDirectoriesNum, int cretedFilesNum, long size, int positionY) {
+        
+    }
+
+    @Override
+    public void finished() {
+         
+    }
+
+    @Override
+    public void setController(WindowController controller) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void showDataOnLeftWindow(Element element, int indent, int positionY, boolean endOfScreen) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void showAllData(Element element, int indent, int positionY, boolean endOfScreen) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -7,6 +7,7 @@ package uzdiz.zadaca.mvc.view.impl;
 
 import java.util.Scanner;
 import uzdiz.zadaca.facade.FileManager;
+import uzdiz.zadaca.mvc.controller.WindowController;
 import uzdiz.zadaca.mvc.controller.impl.WindowControllerImpl;
 import uzdiz.zadaca.mvc.model.Element;
 import uzdiz.zadaca.utils.Constants;
@@ -18,24 +19,34 @@ import uzdiz.zadaca.registry.Registry;
  */
 public abstract class BaseView {
 
-    private WindowControllerImpl controller;
-    private Scanner scanner = new Scanner(System.in);
+    public Scanner scanner = new Scanner(System.in);
     public int rowNumber;
     public int columnNumber;
     String frameSeparation;
     public Registry registry;
 
-    public BaseView(Registry registry) {
-        this.registry = registry;
-        controller = (WindowControllerImpl) registry.resolve("windowController");
-    }
+    public BaseView() {}
 
     public abstract void drawWindow(int rowNumber, int columnNumber, String frameSeparation);
 
     public abstract void showData(Element rootElement, int rowNumber);
 
-    public void onEnterPressed() {
-        // String command = scanner.nextLine();
+    public abstract void showElementsNumber(int DirectoryNumber, int FilesNumber);
+
+    public abstract void showDataOnLeftWindow(Element element, int indent, int positionY, boolean endOfScreen);
+
+    public abstract void showDataOnRightWindow(int createdDirectoriesNum, int cretedFilesNum, long size, int positionY);
+
+    public abstract void showAllData(Element element, int indent, int positionY, boolean endOfScreen);
+    
+    public abstract void finished();
+    
+    public abstract void setController(WindowController controller);
+    
+    public void setRegistry(Registry registry){
+        this.registry = registry;
+        WindowController controller = (WindowController) registry.resolve("windowController");
+        setController(controller);
     }
 
     public void drawScreen(int rowNumber, int columnNumber, String frameSeparation) {
@@ -48,12 +59,9 @@ public abstract class BaseView {
         drawColumns(rowNumber, columnNumber);
         drawWindow(rowNumber, columnNumber, frameSeparation);
 
-        setCusrosrPosition(3, (rowNumber + 1));
-        System.out.print("Unos podataka: ");
-        onEnterPressed();
     }
 
-    private void clearScreen() {
+    public void clearScreen() {
         System.out.print(Constants.ANSI_ESC + "2J");
         System.out.print("\n");
     }
@@ -75,7 +83,7 @@ public abstract class BaseView {
             show(rowNumber, i, 32, "-");
         }
     }
-    
+
     public void rewriteScreen() {
 
         drawRows(rowNumber, columnNumber);
@@ -84,7 +92,6 @@ public abstract class BaseView {
 
         setCusrosrPosition(3, (rowNumber + 1));
         System.out.print("Unos podataka: ");
-        onEnterPressed();
     }
 
     public void setCusrosrPosition(int x, int y) {
@@ -109,7 +116,7 @@ public abstract class BaseView {
     }
 
     public void showFirstScreenData(Element rootElement) {
-       
+
     }
 
 }
