@@ -35,7 +35,7 @@ public class WindowControllerImpl implements WindowController{
 
     @Override
     public void showData() {
-       view.showData(model, arguments.getRowNumber(), arguments.getColumnNumber());
+       view.showData(model, arguments.getRowNumber());
     }
 
     

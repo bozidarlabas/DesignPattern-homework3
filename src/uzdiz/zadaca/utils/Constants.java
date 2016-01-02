@@ -22,4 +22,9 @@ public final class Constants {
     
     public static final String VERTICAL = "V";
     
+     public static final String CREATED_DIR = "Broj kreiranih direktorija: ";
+    
+     public static final String CREATED_FILES = "Broj kreiranih datoteka: ";
+     
+     public static final String SIZE = "Ukupna velicina: ";
 }

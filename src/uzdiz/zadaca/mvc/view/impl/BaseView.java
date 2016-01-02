@@ -20,6 +20,8 @@ public abstract class BaseView {
 
     private WindowControllerImpl controller;
     private Scanner scanner = new Scanner(System.in);
+    public int rowNumber;
+    public int columnNumber;
 
     public BaseView(Registry registry) {
         controller = (WindowControllerImpl) registry.resolve("windowController");
@@ -27,7 +29,7 @@ public abstract class BaseView {
 
     public abstract void drawWindow(int rowNumber, int columnNumber, String frameSeparation);
 
-    public abstract void showData(Element rootElement, int rowNumber, int columnNumber);
+    public abstract void showData(Element rootElement, int rowNumber);
 
     public void onEnterPressed() {
         // String command = scanner.nextLine();
@@ -35,6 +37,8 @@ public abstract class BaseView {
 
     public void drawScreen(int rowNumber, int columnNumber, String frameSeparation) {
         clearScreen();
+        this.rowNumber = rowNumber;
+        this.columnNumber = columnNumber;
 
         drawRows(rowNumber, columnNumber);
         drawColumns(rowNumber, columnNumber);

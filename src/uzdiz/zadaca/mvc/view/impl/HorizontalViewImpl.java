@@ -27,13 +27,10 @@ public class HorizontalViewImpl extends BaseView {
         }
     }
 
+
     @Override
-    public void showData(Element rootElement, int rowNumber, int columnNumber) {
-        FileManager manager = new FileManager();
-
-        String filee = manager.printDirectoryTree(rootElement);
-
-        System.out.println(filee);
+    public void showData(Element rootElement, int rowNumber) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

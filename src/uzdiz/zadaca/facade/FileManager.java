@@ -14,6 +14,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import uzdiz.zadaca.facade.iterator.Iterator;
+import uzdiz.zadaca.listener.OnDataLoaded;
 import uzdiz.zadaca.mvc.model.Element;
 import uzdiz.zadaca.utils.Constants;
 
@@ -26,9 +27,19 @@ public class FileManager {
     private Element rootElement;
     private boolean isRoot = false;
     private int level = 1;
+    private OnDataLoaded listener;
+    private int positionYLeftWindow = 1;
+    private int positionYRightWindow = 1;
+    private int createdDirectoriesNum, createdFilesNum;
+    private long size;
 
-    public FileManager() {
+    public FileManager(OnDataLoaded listener) {
         rootElement = new Element();
+        this.listener = listener;
+    }
+    
+    public FileManager(){
+         rootElement = new Element();
     }
 
     long directorySize;
@@ -110,13 +121,22 @@ public class FileManager {
         return this.rootElement;
     }
 
+    
     public void printDirectoryTree(Element element) {
+        this.size = element.getSize();
+        
+        
+        
+        
+        positionYLeftWindow = 1;
+        positionYRightWindow = 1;
         if (!element.getType().equals(Constants.DIRECTORY)) {
             throw new IllegalArgumentException("folder is not a Directory");
         }
         int indent = 0;
 
         printDirectoryTree(element, indent);
+        listener.finished();
     }
 
     private void printDirectoryTree(Element element, int indent) {
@@ -134,7 +154,11 @@ public class FileManager {
         sb.append("/");
         sb.append("\n");
         sleep();
-        System.out.print(sb);
+        positionYLeftWindow++;
+        listener.showDataOnLeftWindow(sb, positionYLeftWindow);
+        createdDirectoriesNum++;
+        
+        listener.showDataOnRightWindow(createdDirectoriesNum, createdFilesNum, this.size, 2);
         for (Iterator iter = element.getIterator(); iter.hasNext();) {
             Element elementModel = (Element) iter.next();
             if (elementModel.getType().equals(Constants.DIRECTORY)) {
@@ -155,7 +179,10 @@ public class FileManager {
         sb.append(" B)");
         sb.append("\n");
         sleep();
-        System.out.print(sb);
+        positionYLeftWindow++;
+        createdFilesNum++;
+        listener.showDataOnLeftWindow(sb, positionYLeftWindow);
+        listener.showDataOnRightWindow(createdDirectoriesNum, createdFilesNum, this.size, indent);
     }
 
     private void sleep() {
