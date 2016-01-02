@@ -18,4 +18,8 @@ public final class Constants {
     
     public static final String DIRECTORY = "Directory";
     
+    public static final String HORIZONTAL = "O";
+    
+    public static final String VERTICAL = "V";
+    
 }

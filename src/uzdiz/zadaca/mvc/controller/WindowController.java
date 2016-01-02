@@ -13,7 +13,5 @@ public interface WindowController {
     
     public void showWindow();
     
-    public void showFirstWindowData();
-    
-    public void showSecondWindowData();
+    public void showData();
 }

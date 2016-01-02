@@ -22,11 +22,11 @@ import uzdiz.zadaca.utils.Constants;
  * @author Labas
  */
 public class FileManager {
-    
+
     private Element rootElement;
     private boolean isRoot = false;
     private int level = 1;
-    
+
     public FileManager() {
         rootElement = new Element();
     }
@@ -35,16 +35,16 @@ public class FileManager {
 
     /**
      * List files and store this in model Element as Composite
+     *
      * @param path
-     * @param parrent 
+     * @param parrent
      */
     public void listDirectory(String path, Element parrent) {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
-        
+
         directorySize = 0;
-        
-        
+
         if (parrent == null) {
             rootElement.setName("root");
             rootElement.setType(Constants.DIRECTORY);
@@ -58,7 +58,7 @@ public class FileManager {
             model.setName(element.getName());
             model.setDateCreated(getCreationTime(element));
             model.setDateChanged(getModifiedTime(element));
-            
+
             if (element.isDirectory()) {
                 //System.out.println("DIREKTORIJ");
                 listDirectory(element.getAbsolutePath(), model);
@@ -70,20 +70,20 @@ public class FileManager {
                 model.setType(Constants.FILE);
                 model.setSize(element.length());
                 directorySize += model.getSize();
-            }            
-            
+            }
+
             if (parrent == null) {
                 rootElement.getLeaf().add(model);
             } else {
                 parrent.getLeaf().add(model);
-            } 
-        }
-        
-        if (parrent == null) {
-                rootElement.setSize(directorySize);
             }
+        }
+
+        if (parrent == null) {
+            rootElement.setSize(directorySize);
+        }
     }
-    
+
     private String getCreationTime(File element) {
         Path path = Paths.get(element.getAbsolutePath());
         String dateCreated = "";
@@ -94,7 +94,7 @@ public class FileManager {
         }
         return dateCreated;
     }
-    
+
     private String getModifiedTime(File element) {
         Path path = Paths.get(element.getAbsolutePath());
         String dateModified = "";
@@ -105,28 +105,26 @@ public class FileManager {
         }
         return dateModified;
     }
-    
+
     public Element getElementModel() {
         return this.rootElement;
-    }    
-    
-    
-    
-    public String printDirectoryTree(Element element) {
+    }
+
+    public void printDirectoryTree(Element element) {
         if (!element.getType().equals(Constants.DIRECTORY)) {
             throw new IllegalArgumentException("folder is not a Directory");
         }
         int indent = 0;
-        StringBuilder sb = new StringBuilder();
-        printDirectoryTree(element, indent, sb);
-        return sb.toString();
+
+        printDirectoryTree(element, indent);
     }
 
-    private void printDirectoryTree(Element element, int indent,
-            StringBuilder sb) {
+    private void printDirectoryTree(Element element, int indent) {
         if (!element.getType().equals(Constants.DIRECTORY)) {
             throw new IllegalArgumentException("folder is not a Directory");
         }
+        StringBuilder sb = new StringBuilder();
+
         sb.append(getIndentString(indent));
         sb.append("+--");
         sb.append(element.getName());
@@ -135,17 +133,20 @@ public class FileManager {
         sb.append(" B)");
         sb.append("/");
         sb.append("\n");
+        sleep();
+        System.out.print(sb);
         for (Iterator iter = element.getIterator(); iter.hasNext();) {
-             Element elementModel = (Element) iter.next();
-             if (elementModel.getType().equals(Constants.DIRECTORY)) {
-                printDirectoryTree(elementModel, indent + 1, sb);
+            Element elementModel = (Element) iter.next();
+            if (elementModel.getType().equals(Constants.DIRECTORY)) {
+                printDirectoryTree(elementModel, indent + 1);
             } else {
-                printFile(elementModel, indent + 1, sb);
+                printFile(elementModel, indent + 1);
             }
         }
     }
 
-    private void printFile(Element element, int indent, StringBuilder sb) {
+    private void printFile(Element element, int indent) {
+        StringBuilder sb = new StringBuilder();
         sb.append(getIndentString(indent));
         sb.append("+--");
         sb.append(element.getName());
@@ -153,6 +154,15 @@ public class FileManager {
         sb.append(element.getSize());
         sb.append(" B)");
         sb.append("\n");
+        sleep();
+        System.out.print(sb);
+    }
+
+    private void sleep() {
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException ex) {
+        }
     }
 
     private String getIndentString(int indent) {
@@ -162,5 +172,5 @@ public class FileManager {
         }
         return sb.toString();
     }
-    
+
 }

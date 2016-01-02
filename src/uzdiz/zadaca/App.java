@@ -25,7 +25,7 @@ public class App {
         //Resolve controller dependency and show window
         WindowController controller = (WindowControllerImpl) registry.resolve("windowController");
         controller.showWindow();
-        controller.showFirstWindowData();
+        controller.showData();
 
       
     }

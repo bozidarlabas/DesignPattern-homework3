@@ -9,6 +9,7 @@ import uzdiz.zadaca.mvc.controller.WindowController;
 import uzdiz.zadaca.mvc.model.Arguments;
 import uzdiz.zadaca.mvc.model.Element;
 import uzdiz.zadaca.mvc.view.WindowView;
+import uzdiz.zadaca.mvc.view.impl.BaseView;
 import uzdiz.zadaca.registry.Registry;
 
 /**
@@ -19,11 +20,11 @@ public class WindowControllerImpl implements WindowController{
 
     private final Arguments arguments;
     private final Element model;
-    private final WindowView view;
+    private final BaseView view;
     
     public WindowControllerImpl(Registry registry, Element model){
         this.arguments = (Arguments) registry.resolve("arguments");
-        this.view = (WindowView) registry.resolve("windowView");
+        this.view = (BaseView) registry.resolve("windowView");
         this.model = model;
     }
             
@@ -33,13 +34,9 @@ public class WindowControllerImpl implements WindowController{
     }
 
     @Override
-    public void showFirstWindowData() {
-        view.showFirstScreenData(model);
+    public void showData() {
+       view.showData(model, arguments.getRowNumber(), arguments.getColumnNumber());
     }
 
-    @Override
-    public void showSecondWindowData() {
-        
-    }
     
 }

@@ -8,30 +8,31 @@ package uzdiz.zadaca.mvc.view.impl;
 import java.util.Scanner;
 import uzdiz.zadaca.facade.FileManager;
 import uzdiz.zadaca.mvc.controller.impl.WindowControllerImpl;
-import uzdiz.zadaca.mvc.model.Arguments;
 import uzdiz.zadaca.mvc.model.Element;
 import uzdiz.zadaca.utils.Constants;
-import uzdiz.zadaca.mvc.view.WindowView;
 import uzdiz.zadaca.registry.Registry;
 
 /**
  *
  * @author Labas
  */
-public class WindowViewImpl implements WindowView {
+public abstract class BaseView {
 
     private WindowControllerImpl controller;
     private Scanner scanner = new Scanner(System.in);
 
-    public WindowViewImpl(Registry registry) {
+    public BaseView(Registry registry) {
         controller = (WindowControllerImpl) registry.resolve("windowController");
     }
 
+    public abstract void drawWindow(int rowNumber, int columnNumber, String frameSeparation);
+
+    public abstract void showData(Element rootElement, int rowNumber, int columnNumber);
+
     public void onEnterPressed() {
-      // String command = scanner.nextLine();
+        // String command = scanner.nextLine();
     }
 
-    @Override
     public void drawScreen(int rowNumber, int columnNumber, String frameSeparation) {
         clearScreen();
 
@@ -67,28 +68,15 @@ public class WindowViewImpl implements WindowView {
         }
     }
 
-    private void drawWindow(int rowNumber, int columnNumber, String frameSeparation) {
-        int j = 1;
-        if (frameSeparation.equals("V")) {
-            for (int i = 2; i < (rowNumber); i++) {
-                show(i, columnNumber / 2, 32, "|");
-            }
-        } else if (frameSeparation.equals("O")) {
-            for (int i = 2; i < columnNumber; i++) {
-                show(rowNumber / 2, i, 32, "-");
-            }
-        }
-    }
-
-    private void setCusrosrPosition(int x, int y) {
+    public void setCusrosrPosition(int x, int y) {
         System.out.print(Constants.ANSI_ESC + y + ";" + x + "f");
     }
 
-    private void set(int x, int y) {
+    public void set(int x, int y) {
         System.out.print(Constants.ANSI_ESC + x + ";" + y + "f");
     }
 
-    private void show(int x, int y, int boja, String tekst) {
+    public void show(int x, int y, int boja, String tekst) {
         set(x, y);
         System.out.print(Constants.ANSI_ESC + boja + "m");
         System.out.print(tekst);
@@ -101,13 +89,8 @@ public class WindowViewImpl implements WindowView {
          */
     }
 
-    @Override
     public void showFirstScreenData(Element rootElement) {
-        FileManager manager = new FileManager();
-
-        String filee = manager.printDirectoryTree(rootElement);
-        
-       System.out.println(filee);
+       
     }
 
 }
