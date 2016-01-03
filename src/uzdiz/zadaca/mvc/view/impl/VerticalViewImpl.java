@@ -43,34 +43,58 @@ public class VerticalViewImpl extends BaseView {
         System.out.println(Constants.SIZE);
     }
 
+    int newLine = 0;
+    
     public void showDataOnLeftWindow(Element element, int indent, int positionY, boolean endOfScreen) {
-        setCusrosrPosition(2, positionY);
+        setCusrosrPosition(2, positionY + newLine);
+       boolean indentText = false;
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append(getIndentString(indent));
+        sb.append(getIndentString(indent, "|"));
         sb.append("+--");
         sb.append(element.getName());
         // sb.append(" (");
         // sb.append(element.getSize());
         // sb.append(" B)");
-        sb.append("/");
-        sb.append("\n");
-        if (endOfScreen) {
-            sb.append(Constants.ANSI_ESC + "2J");
+
+        if (sb.length() >= ((columnNumber / 2) - 2)) {
+            while (sb.length() > 0) {
+
+                if (sb.length() >= ((columnNumber / 2) - 2)) {
+                    indentText = true;
+                    newLine++;
+                    System.out.print(sb.substring(0, (columnNumber / 2) - 2));
+                    setCusrosrPosition(2, positionY + newLine);
+                    sb.delete(0, (columnNumber / 2) - 2);
+                } else {
+                    if(indentText){
+                        indentText = false;
+                        System.out.print(getIndentString(indent, " "));
+                    }
+                    System.out.print(sb);
+                    sb.setLength(0);
+                }
+
+            }
+        } else {
+            if (endOfScreen) {
+                sb.append(Constants.ANSI_ESC + "2J");
+            }
+
+            System.out.print(sb);
+
+            if (endOfScreen) {
+                rewriteScreen();
+            }
         }
 
-        System.out.print(sb);
-
-        if (endOfScreen) {
-            rewriteScreen();
-        }
     }
 
-    private String getIndentString(int indent) {
+    private String getIndentString(int indent, String text) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < indent; i++) {
-            sb.append("|  ");
+            sb.append(text + "  ");
         }
         return sb.toString();
     }
@@ -122,7 +146,6 @@ public class VerticalViewImpl extends BaseView {
 
     @Override
     public void showAllData(Element element, int indent, int positionY, boolean endOfScreen) {
-        
 
         StringBuilder sb = new StringBuilder();
 

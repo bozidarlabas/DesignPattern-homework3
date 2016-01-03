@@ -50,6 +50,7 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
     }
 
     public void fetchDataStructure(Element rootElement) {
+        
         display = Constants.DATA;
         manager.printDirectoryTree(rootElement, display);
         view.showData(model, arguments.getRowNumber());
@@ -83,7 +84,7 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
     public void selectCommandTwo() {
         view.clearScreen();
         view.rewriteScreen();
-        view.setCusrosrPosition(2, 2);
+        
         display = Constants.STRUCTURE;
         manager.printDirectoryTree(model, display);
     }
