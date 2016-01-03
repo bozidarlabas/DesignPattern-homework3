@@ -16,7 +16,7 @@ public class App {
 
         //List and store directories and files inside element model
         FileManager manager = new FileManager();
-        manager.listDirectory("/Users/macbook/Workspaces/UzDiz/zadace/uzdiz", null);
+        manager.listDirectory(args[3], null);
 
         //Register all services and return registry
         Registry registry = RegistryBuilder.getRegistry(args, manager.getElementModel());
