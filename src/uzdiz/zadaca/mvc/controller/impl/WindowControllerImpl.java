@@ -84,7 +84,7 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
     public void selectCommandTwo() {
         view.clearScreen();
         view.rewriteScreen();
-        
+        view.setCusrosrPosition(2, 2);
         display = Constants.STRUCTURE;
         manager.printDirectoryTree(model, display);
     }
