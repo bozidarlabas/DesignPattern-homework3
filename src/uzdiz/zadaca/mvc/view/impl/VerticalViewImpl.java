@@ -5,12 +5,8 @@
  */
 package uzdiz.zadaca.mvc.view.impl;
 
-import uzdiz.zadaca.facade.FileManager;
-import uzdiz.zadaca.listener.OnDataLoaded;
 import uzdiz.zadaca.mvc.controller.WindowController;
-import uzdiz.zadaca.mvc.controller.impl.WindowControllerImpl;
 import uzdiz.zadaca.mvc.model.Element;
-import uzdiz.zadaca.registry.Registry;
 import uzdiz.zadaca.utils.Constants;
 
 /**
@@ -45,6 +41,7 @@ public class VerticalViewImpl extends BaseView {
 
     int newLine = 0;
     
+    @Override
     public void showDataOnLeftWindow(Element element, int indent, int positionY, boolean endOfScreen) {
         setCusrosrPosition(2, positionY + newLine);
        boolean indentText = false;
@@ -54,9 +51,7 @@ public class VerticalViewImpl extends BaseView {
         sb.append(getIndentString(indent, "|"));
         sb.append("+--");
         sb.append(element.getName());
-        // sb.append(" (");
-        // sb.append(element.getSize());
-        // sb.append(" B)");
+        sb.append(" - ").append(element.getLevel());
 
         if (sb.length() >= ((columnNumber / 2) - 2)) {
             while (sb.length() > 0) {
@@ -94,11 +89,12 @@ public class VerticalViewImpl extends BaseView {
     private String getIndentString(int indent, String text) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < indent; i++) {
-            sb.append(text + "  ");
+            sb.append(text).append("  ");
         }
         return sb.toString();
     }
 
+    @Override
     public void showDataOnRightWindow(int createdDirectoriesNum, int cretedFilesNum, long size, int positionY) {
         setCusrosrPosition((columnNumber / 2) + 1, 2);
         System.out.println(Constants.CREATED_DIR + createdDirectoriesNum);
@@ -108,6 +104,7 @@ public class VerticalViewImpl extends BaseView {
         System.out.println(Constants.SIZE + size + " B");
     }
 
+    @Override
     public void finished() {
         setCusrosrPosition(3, (rowNumber + 2));
         onEnterPressed();
@@ -123,6 +120,9 @@ public class VerticalViewImpl extends BaseView {
                 break;
             case 2:
                 controller.selectCommandTwo();
+                break;
+            case 3: 
+                controller.selectCommandThree();
                 break;
         }
 
@@ -153,11 +153,11 @@ public class VerticalViewImpl extends BaseView {
         sb.append("|+");
         sb.append(element.getName());
         sb.append("\n");
-        sb.append("|  Datum kreiranja: " + element.getDateCreated());
+        sb.append("|  Datum kreiranja: ").append(element.getDateCreated());
         sb.append("\n");
-        sb.append("|  Datum modificiranja: " + element.getDateChanged());
+        sb.append("|  Datum modificiranja: ").append(element.getDateChanged());
         sb.append("\n");
-        sb.append("|  Velicina: " + element.getSize());
+        sb.append("|  Velicina: ").append(element.getSize());
         // sb.append(" (");
         // sb.append(element.getSize());
         // sb.append(" B)");

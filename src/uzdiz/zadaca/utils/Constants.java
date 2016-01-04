@@ -31,4 +31,6 @@ public final class Constants {
      public static final String DATA = "ShowData";
      
      public static final String STRUCTURE = "ShowStructure";
+     
+     public static final String THREAD_START = "ThreadStart"; 
 }

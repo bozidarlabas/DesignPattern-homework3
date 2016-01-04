@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uzdiz.zadaca.facade.memento;
+package uzdiz.zadaca.memento;
 
 import uzdiz.zadaca.mvc.model.Element;
 
@@ -11,15 +11,15 @@ import uzdiz.zadaca.mvc.model.Element;
  *
  * @author bozidar
  */
-public class ElementOriginator {
+public class ElementMemento {
     private Element state;
+    
+    public ElementMemento(Element state){
+        this.state = state;
+    }
 
     public Element getState() {
         return state;
-    }
-
-    public void setState(Element state) {
-        this.state = state;
     }
     
     

@@ -1,13 +1,9 @@
 package uzdiz.zadaca.registry;
 
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import uzdiz.zadaca.mvc.controller.WindowController;
 import uzdiz.zadaca.mvc.controller.impl.WindowControllerImpl;
 import uzdiz.zadaca.mvc.model.Arguments;
 import uzdiz.zadaca.mvc.model.Element;
-import uzdiz.zadaca.mvc.view.WindowView;
 import uzdiz.zadaca.mvc.view.impl.BaseView;
 import uzdiz.zadaca.mvc.view.impl.HorizontalViewImpl;
 import uzdiz.zadaca.mvc.view.impl.VerticalViewImpl;
@@ -19,6 +15,7 @@ import uzdiz.zadaca.utils.Constants;
 public class RegistryBuilder {
 
     public static void buildRegistry(String args[], Element elementModel, Registry registry) {
+        
         Arguments arguments = new Arguments(args);
         registry.register("arguments", arguments);
         

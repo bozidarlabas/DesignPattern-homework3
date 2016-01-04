@@ -5,6 +5,8 @@
  */
 package uzdiz.zadaca.mvc.controller.impl;
 
+import uzdiz.zadaca.ComparatorThread;
+import uzdiz.zadaca.facade.Comparator;
 import uzdiz.zadaca.facade.FileManager;
 import uzdiz.zadaca.listener.OnDataLoaded;
 import uzdiz.zadaca.mvc.controller.WindowController;
@@ -25,14 +27,15 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
     private final BaseView view;
     private FileManager manager;
     private String display;
-    
-    public WindowControllerImpl(Registry registry, Element model){
+    private ComparatorThread thread;
+
+    public WindowControllerImpl(Registry registry, Element model) {
         this.arguments = (Arguments) registry.resolve("arguments");
         this.view = (BaseView) registry.resolve("windowView");
         this.model = model;
         this.manager = new FileManager(this, registry);
     }
-            
+
     @Override
     public void showWindow() {
         view.drawScreen(arguments.getRowNumber(), arguments.getColumnNumber(), arguments.getFrameSeparation());
@@ -40,8 +43,8 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
 
     @Override
     public void showData() {
-       fetchDataStructure(model);
-       
+        fetchDataStructure(model);
+
     }
 
     @Override
@@ -50,7 +53,6 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
     }
 
     public void fetchDataStructure(Element rootElement) {
-        
         display = Constants.DATA;
         manager.printDirectoryTree(rootElement, display);
         view.showData(model, arguments.getRowNumber());
@@ -58,20 +60,20 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
 
     @Override
     public void showDataOnLeftWindow(Element element, int indent, int positionY, boolean endOfScreen) {
-        if(display.equals(Constants.DATA)){
-          view.showDataOnLeftWindow(element, indent, positionY, endOfScreen);  
-        }else if(display.equals(Constants.STRUCTURE)){
-          view.showAllData(element, indent, positionY, endOfScreen);
+        if (display.equals(Constants.DATA)) {
+            view.showDataOnLeftWindow(element, indent, positionY, endOfScreen);
+        } else if (display.equals(Constants.STRUCTURE)) {
+            view.showAllData(element, indent, positionY, endOfScreen);
         }
-        
+
     }
 
     @Override
     public void showDataOnRightWindow(int createdDirectoriesNum, int cretedFilesNum, long size, int positionY) {
-        if(display.equals(Constants.DATA)){
+        if (display.equals(Constants.DATA)) {
             view.showDataOnRightWindow(createdDirectoriesNum, cretedFilesNum, size, positionY);
-        } else if(display.equals(Constants.STRUCTURE)){
-            
+        } else if (display.equals(Constants.STRUCTURE)) {
+
         }
     }
 
@@ -89,5 +91,19 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
         manager.printDirectoryTree(model, display);
     }
 
-    
+    @Override
+    public void selectCommandThree() {
+        Comparator comparator = new Comparator(arguments.getRootDirectory(), 0); //TODO change from 0 to n
+        this.thread = new ComparatorThread(manager, comparator, arguments.getSeconds());
+        thread.startThread();
+        view.finished();
+        display = Constants.THREAD_START;
+    }
+
+    @Override
+    public void selectCommandFour() {
+        thread.stopThread();
+        view.finished();
+    }
+
 }

@@ -20,4 +20,8 @@ public interface WindowController {
     
     public void selectCommandTwo();
     
+    public void selectCommandThree();
+    
+    public void selectCommandFour();
+    
 }

@@ -11,9 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.HashMap;
 import uzdiz.zadaca.facade.iterator.Iterator;
 import uzdiz.zadaca.listener.OnDataLoaded;
+import uzdiz.zadaca.memento.ElementCareTaker;
+import uzdiz.zadaca.memento.ElementOriginator;
 import uzdiz.zadaca.mvc.model.Arguments;
 import uzdiz.zadaca.mvc.model.Element;
 import uzdiz.zadaca.registry.Registry;
@@ -27,7 +28,7 @@ public class FileManager {
 
     private Element rootElement;
     private boolean isRoot = false;
-    private int level = 1;
+    private int level = 0;
     private OnDataLoaded listener;
     private int positionYLeftWindow = 1;
     private int positionYRightWindow = 1;
@@ -36,6 +37,7 @@ public class FileManager {
     private Arguments arguments;
     private boolean isEndOfFile = false;
     private String display;
+    private Registry registry;
 
     public FileManager(OnDataLoaded listener, Registry registry) {
         rootElement = new Element();
@@ -49,13 +51,17 @@ public class FileManager {
 
     long directorySize;
 
+    public void setRegistry(Registry registry) {
+        this.registry = registry;
+    }
+
     /**
      * List files and store this in model Element as Composite
      *
      * @param path
      * @param parrent
      */
-    public void listDirectory(String path, Element parrent) {
+    public Element listDirectory(String path, Element parrent) {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
 
@@ -69,6 +75,7 @@ public class FileManager {
 
         //Iterate through directory
         for (File element : listOfFiles) {
+            level++;
             Element model = new Element();
             //System.out.println("Name: " + element.getName());
             model.setName(element.getName());
@@ -79,7 +86,7 @@ public class FileManager {
                 //System.out.println("DIREKTORIJ");
                 listDirectory(element.getAbsolutePath(), model);
                 model.setType(Constants.DIRECTORY);
-                level++;
+                
                 model.setLevel(level);
                 model.setSize(directorySize);
             } else if (element.isFile()) {
@@ -98,6 +105,7 @@ public class FileManager {
         if (parrent == null) {
             rootElement.setSize(directorySize);
         }
+        return rootElement;
     }
 
     private String getCreationTime(File element) {
@@ -207,6 +215,13 @@ public class FileManager {
             Thread.sleep(300);
         } catch (InterruptedException ex) {
         }
+    }
+
+    public void saveStructure(Element element) {
+        ElementOriginator originator = new ElementOriginator();
+        originator.setState(element);
+        ElementCareTaker careTaker = ElementCareTaker.getInstance();
+        careTaker.add(originator.saveStateToMemento());
     }
 
 }
