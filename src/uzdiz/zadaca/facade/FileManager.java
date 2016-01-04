@@ -68,7 +68,7 @@ public class FileManager {
         directorySize = 0;
 
         if (parrent == null) {
-            rootElement.setName("root");
+            rootElement.setName(folder.getAbsolutePath());
             rootElement.setType(Constants.DIRECTORY);
             rootElement.setLevel(level);
         }

@@ -51,7 +51,6 @@ public class VerticalViewImpl extends BaseView {
         sb.append(getIndentString(indent, "|"));
         sb.append("+--");
         sb.append(element.getName());
-        sb.append(" - ").append(element.getLevel());
 
         if (sb.length() >= ((columnNumber / 2) - 2)) {
             while (sb.length() > 0) {
