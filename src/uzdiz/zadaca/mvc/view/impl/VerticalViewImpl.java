@@ -102,6 +102,15 @@ public class VerticalViewImpl extends BaseView {
         setCusrosrPosition((columnNumber / 2) + 1, 4);
         System.out.println(Constants.SIZE + size + " B");
     }
+    
+    @Override
+    public void showErrorMessage(String message) {
+        clearScreen();
+        rewriteScreen();
+        show(2, 2, 31, "Greška: " + message + "!");       
+        show(2, 3, 37, "");
+        finished();
+    }
 
     @Override
     public void finished() {
@@ -112,8 +121,9 @@ public class VerticalViewImpl extends BaseView {
     public void onEnterPressed() {
         setCusrosrPosition(3, (rowNumber + 1));
         System.out.print("Unos podataka: ");
-        int command = Integer.parseInt(scanner.nextLine());
-        switch (command) {
+        String[] command = scanner.nextLine().split(" ");
+        int commandCode = Integer.parseInt(command[0]);
+        switch (commandCode) {
             case 1:
                 controller.selectCommandOne();
                 break;
@@ -122,6 +132,13 @@ public class VerticalViewImpl extends BaseView {
                 break;
             case 3: 
                 controller.selectCommandThree();
+                break;
+            case 9:
+                if (command.length > 1) {
+                    controller.selectCommandNine(command[1]);
+                } else {
+                    showErrorMessage("komanda zahtijeva dva argumenta");
+                }
                 break;
         }
 

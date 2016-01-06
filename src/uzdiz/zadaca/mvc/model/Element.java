@@ -9,12 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import uzdiz.zadaca.facade.iterator.Container;
 import uzdiz.zadaca.facade.iterator.Iterator;
+import uzdiz.zadaca.visitor.ElementVisited;
+import uzdiz.zadaca.visitor.ElementVisitor;
 
 /**
  *
  * @author Labas
  */
-public class Element implements Container{
+public class Element implements Container, ElementVisited{
     
     private String name;
     private String type;
@@ -89,6 +91,11 @@ public class Element implements Container{
     @Override
     public Iterator getIterator() {
          return new  ElementIterator();
+    }
+
+    @Override
+    public void accept(ElementVisitor visitor) {
+        visitor.visit(this);
     }
     
     public class ElementIterator implements Iterator {

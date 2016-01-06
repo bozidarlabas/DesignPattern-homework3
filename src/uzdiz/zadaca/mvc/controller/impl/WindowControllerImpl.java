@@ -8,6 +8,7 @@ package uzdiz.zadaca.mvc.controller.impl;
 import uzdiz.zadaca.ComparatorThread;
 import uzdiz.zadaca.facade.Comparator;
 import uzdiz.zadaca.facade.FileManager;
+import uzdiz.zadaca.facade.iterator.Iterator;
 import uzdiz.zadaca.listener.OnDataLoaded;
 import uzdiz.zadaca.mvc.controller.WindowController;
 import uzdiz.zadaca.mvc.model.Arguments;
@@ -15,6 +16,8 @@ import uzdiz.zadaca.mvc.model.Element;
 import uzdiz.zadaca.mvc.view.impl.BaseView;
 import uzdiz.zadaca.registry.Registry;
 import uzdiz.zadaca.utils.Constants;
+import uzdiz.zadaca.visitor.impl.Elements;
+import uzdiz.zadaca.visitor.impl.Search;
 
 /**
  *
@@ -106,4 +109,16 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
         view.finished();
     }
 
+    @Override
+    public void selectCommandNine(String searched) {
+        view.clearScreen();
+        view.rewriteScreen();
+        view.show(2, 2, 32, "Tražim \"" + searched + "\"...");
+        
+        Elements elements = new Elements(model);
+        elements.accept(new Search(searched, view));
+        
+        view.finished();
+        
+    }
 }

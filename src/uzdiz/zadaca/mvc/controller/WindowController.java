@@ -24,4 +24,6 @@ public interface WindowController {
     
     public void selectCommandFour();
     
+    public void selectCommandNine(String searched);
+    
 }

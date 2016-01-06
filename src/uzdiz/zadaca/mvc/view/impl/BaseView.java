@@ -39,6 +39,8 @@ public abstract class BaseView {
 
     public abstract void showAllData(Element element, int indent, int positionY, boolean endOfScreen);
     
+    public abstract void showErrorMessage(String message);
+    
     public abstract void finished();
     
     public abstract void setController(WindowController controller);
