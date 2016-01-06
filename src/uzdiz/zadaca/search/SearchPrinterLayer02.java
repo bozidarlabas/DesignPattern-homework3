@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uzdiz.zadaca.visitor;
+package uzdiz.zadaca.search;
+
+import uzdiz.zadaca.mvc.model.Element;
+import uzdiz.zadaca.mvc.view.impl.BaseView;
 
 /**
  *
  * @author Basic
  */
-public interface ElementVisitor {
-    public void visit(ElementVisited element);
+public interface SearchPrinterLayer02 {
+    public void print(Element element, BaseView view);
 }

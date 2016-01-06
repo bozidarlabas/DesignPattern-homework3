@@ -16,8 +16,8 @@ import uzdiz.zadaca.mvc.model.Element;
 import uzdiz.zadaca.mvc.view.impl.BaseView;
 import uzdiz.zadaca.registry.Registry;
 import uzdiz.zadaca.utils.Constants;
-import uzdiz.zadaca.visitor.impl.Elements;
-import uzdiz.zadaca.visitor.impl.Search;
+import uzdiz.zadaca.search.impl.Elements;
+import uzdiz.zadaca.search.impl.Search;
 
 /**
  *

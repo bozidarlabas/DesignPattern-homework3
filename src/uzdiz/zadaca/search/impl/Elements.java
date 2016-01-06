@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uzdiz.zadaca.visitor.impl;
+package uzdiz.zadaca.search.impl;
 
 import uzdiz.zadaca.facade.iterator.Iterator;
 import uzdiz.zadaca.mvc.model.Element;
 import uzdiz.zadaca.utils.Constants;
-import uzdiz.zadaca.visitor.ElementVisited;
-import uzdiz.zadaca.visitor.ElementVisitor;
+import uzdiz.zadaca.search.ElementVisited;
+import uzdiz.zadaca.search.ElementVisitor;
 
 /**
  *

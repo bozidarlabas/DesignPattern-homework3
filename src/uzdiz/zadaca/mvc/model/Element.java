@@ -6,11 +6,10 @@
 package uzdiz.zadaca.mvc.model;
 
 import java.util.ArrayList;
-import java.util.List;
 import uzdiz.zadaca.facade.iterator.Container;
 import uzdiz.zadaca.facade.iterator.Iterator;
-import uzdiz.zadaca.visitor.ElementVisited;
-import uzdiz.zadaca.visitor.ElementVisitor;
+import uzdiz.zadaca.search.ElementVisited;
+import uzdiz.zadaca.search.ElementVisitor;
 
 /**
  *
