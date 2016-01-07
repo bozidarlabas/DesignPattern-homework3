@@ -86,7 +86,7 @@ public class FileManager {
                 //System.out.println("DIREKTORIJ");
                 listDirectory(element.getAbsolutePath(), model);
                 model.setType(Constants.DIRECTORY);
-                
+
                 model.setLevel(level);
                 model.setSize(directorySize);
             } else if (element.isFile()) {
@@ -180,15 +180,28 @@ public class FileManager {
         }
     }
 
+    //Check end of line for Vertical and Horizontal View
     private boolean checkEndOfLine() {
-        if (display.equals(Constants.STRUCTURE)) {
-            if ((positionYLeftWindow + 10) >= this.arguments.getRowNumber()) {
+        if (arguments.getFrameSeparation().equals(Constants.VERTICAL)) {
+            if (display.equals(Constants.STRUCTURE)) {
+                if ((positionYLeftWindow + 10) >= this.arguments.getRowNumber()) {
+                    return true;
+                }
+            }
+            if (positionYLeftWindow >= this.arguments.getRowNumber()) {
+                return true;
+            }
+        } else {
+            if (display.equals(Constants.STRUCTURE)) {
+                if ((positionYLeftWindow + 5) >= (this.arguments.getRowNumber() / 2)) {
+                    return true;
+                }
+            }
+            if (positionYLeftWindow >= (this.arguments.getRowNumber() / 2)) {
                 return true;
             }
         }
-        if (positionYLeftWindow >= this.arguments.getRowNumber()) {
-            return true;
-        }
+
         return false;
     }
 
@@ -223,6 +236,5 @@ public class FileManager {
         ElementCareTaker careTaker = ElementCareTaker.getInstance();
         careTaker.add(originator.saveStateToMemento());
     }
-    
 
 }
