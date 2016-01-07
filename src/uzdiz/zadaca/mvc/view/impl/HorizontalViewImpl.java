@@ -185,26 +185,26 @@ public class HorizontalViewImpl extends BaseView {
         }
     }
 
-   @Override
+    @Override
     public void showAllStoredStates() {
         clearScreen();
         rewriteScreen();
         setCusrosrPosition(2, 2);
-        
+
         ElementCareTaker careTaker = ElementCareTaker.getInstance();
-        List<ElementMemento> mementoList= careTaker.getMementoList();
+        List<ElementMemento> mementoList = careTaker.getMementoList();
         int i = 0;
-        for(ElementMemento memento : mementoList){
+        for (ElementMemento memento : mementoList) {
             i++;
             Element element = memento.getState();
             System.out.println("|Redni broj: " + i);
-            if(element.getStoreDate() != null){
+            if (element.getStoreDate() != null) {
                 System.out.println("|Vrijeme spremanja: " + element.getStoreDate());
             }
         }
-        
+
         finished();
-        
+
     }
 
     @Override
@@ -245,10 +245,26 @@ public class HorizontalViewImpl extends BaseView {
             case "8":
                 controller.selectCommandEight();
                 break;
+            case "9":
+                if (command.split(" ")[1] != null) {
+                    String elementName = command.split(" ")[1];
+                    controller.selectCommandNine(elementName);
+                } else {
+                    showErrorMessage("komanda zahtijeva dva argumenta");
+                }
+                break;
 
         }
 
     }
 
+    @Override
+    public void showErrorMessage(String message) {
+        clearScreen();
+        rewriteScreen();
+        show(2, 2, 31, "Greška: " + message + "!");
+        show(2, 3, 37, "");
+        finished();
+    }
 
 }

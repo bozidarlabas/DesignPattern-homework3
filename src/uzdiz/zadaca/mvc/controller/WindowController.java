@@ -32,4 +32,6 @@ public interface WindowController {
     
     public void selectCommandEight();
     
+    public void selectCommandNine(String searched);
+    
 }

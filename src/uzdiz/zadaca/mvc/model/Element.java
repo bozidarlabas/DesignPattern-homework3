@@ -10,12 +10,14 @@ import java.util.Date;
 import java.util.List;
 import uzdiz.zadaca.facade.iterator.Container;
 import uzdiz.zadaca.facade.iterator.Iterator;
+import uzdiz.zadaca.search.ElementVisited;
+import uzdiz.zadaca.search.ElementVisitor;
 
 /**
  *
  * @author Labas
  */
-public class Element implements Container{
+public class Element implements Container, ElementVisited{
     
     private String name;
     private String type;
@@ -96,12 +98,17 @@ public class Element implements Container{
     
     
     
-    
+    @Override
+    public void accept(ElementVisitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public Iterator getIterator() {
          return new  ElementIterator();
     }
+
+    
     
     public class ElementIterator implements Iterator {
         int index;

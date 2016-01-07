@@ -50,6 +50,8 @@ public abstract class BaseView {
     
     public abstract void showMessage(String message);
     
+    public abstract void showErrorMessage(String message);
+    
     public void setRegistry(Registry registry){
         this.registry = registry;
         WindowController controller = (WindowController) registry.resolve("windowController");

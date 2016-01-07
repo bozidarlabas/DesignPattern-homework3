@@ -18,6 +18,8 @@ import uzdiz.zadaca.mvc.model.Arguments;
 import uzdiz.zadaca.mvc.model.Element;
 import uzdiz.zadaca.mvc.view.impl.BaseView;
 import uzdiz.zadaca.registry.Registry;
+import uzdiz.zadaca.search.impl.Elements;
+import uzdiz.zadaca.search.impl.Search;
 import uzdiz.zadaca.utils.Constants;
 
 /**
@@ -148,7 +150,7 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
         Comparator comparator = new Comparator(view, arguments);
         comparator.setCommand(7);
         comparator.setStates(model, compareElement);
-        
+
         comparator.checkForChanges();
         finished();
 
@@ -158,21 +160,33 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
     public void selectCommandEight() {
         ElementCareTaker careTaker = ElementCareTaker.getInstance();
         careTaker.clearStates();
-        
+
         FileManager manager = new FileManager();
         Element rootElement = manager.listDirectory(arguments.getRootDirectory(), null);
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         rootElement.setStoreDate(dateFormat.format(date));
         manager.saveStructure(rootElement);
-        
+
         this.model = rootElement;
         view.clearScreen();
         view.rewriteScreen();
         view.setCusrosrPosition(2, 2);
         view.showMessage("Struktura je ponovno ucitana");
         finished();
-        
+
     }
 
+    @Override
+    public void selectCommandNine(String searched) {
+        view.clearScreen();
+        view.rewriteScreen();
+        view.show(2, 2, 32, "Tražim \"" + searched + "\"...");
+
+        Elements elements = new Elements(model);
+        elements.accept(new Search(searched, view));
+
+        view.finished();
+
+    }
 }

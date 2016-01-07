@@ -113,12 +113,11 @@ public class VerticalViewImpl extends BaseView {
     public void showPromjene(Promjena promjene, int j) {
         clearScreen();
         rewriteScreen();
-        
+
         setCusrosrPosition((columnNumber / 2) + 1, (j + 2));
 
         System.out.println("Vrijeme promjene: " + promjene.getVrijeme());
-        
-        
+
         setCusrosrPosition((columnNumber / 2) + 1, (j + 3));
         System.out.println("Opis promjene");
         setCusrosrPosition((columnNumber / 2) + 1, (j + 4));
@@ -156,24 +155,32 @@ public class VerticalViewImpl extends BaseView {
             case "3":
                 controller.selectCommandThree();
                 break;
-             case "4":
+            case "4":
                 controller.selectCommandFour();
                 break;
-             case "5":
-                 controller.selectCommandFive();
-                 break;
-             case "6":
-                 selectedElement = Integer.parseInt(command.split(" ")[1]);
-                 controller.selectCommandSix(selectedElement);
-                 break;
-             case "7":
-                 selectedElement = Integer.parseInt(command.split(" ")[1]);
-                 controller.selectCommandSeven(selectedElement);
-                 break;
-             case "8":
-                 controller.selectCommandEight();
-                 break;
-                 
+            case "5":
+                controller.selectCommandFive();
+                break;
+            case "6":
+                selectedElement = Integer.parseInt(command.split(" ")[1]);
+                controller.selectCommandSix(selectedElement);
+                break;
+            case "7":
+                selectedElement = Integer.parseInt(command.split(" ")[1]);
+                controller.selectCommandSeven(selectedElement);
+                break;
+            case "8":
+                controller.selectCommandEight();
+                break;
+            case "9":
+                if (command.split(" ")[1] != null) {
+                    String elementName = command.split(" ")[1];
+                    controller.selectCommandNine(elementName);
+                } else {
+                    showErrorMessage("komanda zahtijeva dva argumenta");
+                }
+                break;
+
         }
 
     }
@@ -230,26 +237,35 @@ public class VerticalViewImpl extends BaseView {
         clearScreen();
         rewriteScreen();
         setCusrosrPosition(2, 2);
-        
+
         ElementCareTaker careTaker = ElementCareTaker.getInstance();
-        List<ElementMemento> mementoList= careTaker.getMementoList();
+        List<ElementMemento> mementoList = careTaker.getMementoList();
         int i = 0;
-        for(ElementMemento memento : mementoList){
+        for (ElementMemento memento : mementoList) {
             i++;
             Element element = memento.getState();
             System.out.println("|Redni broj: " + i);
-            if(element.getStoreDate() != null){
+            if (element.getStoreDate() != null) {
                 System.out.println("|Vrijeme spremanja: " + element.getStoreDate());
             }
         }
-        
+
         finished();
-        
+
     }
 
     @Override
     public void showMessage(String message) {
-         System.out.println(message);
+        System.out.println(message);
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+        clearScreen();
+        rewriteScreen();
+        show(2, 2, 31, "Greška: " + message + "!");
+        show(2, 3, 37, "");
+        finished();
     }
 
 }
