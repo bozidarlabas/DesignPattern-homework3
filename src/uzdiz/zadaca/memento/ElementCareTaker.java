@@ -36,5 +36,9 @@ public class ElementCareTaker {
     public ElementMemento getLastFromMementoList() {
         return mementoList.get(mementoList.size() - 1);
     }
+    
+    public void clearStates(){
+        mementoList.clear();
+    }
 
 }

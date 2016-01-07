@@ -5,13 +5,14 @@
  */
 package uzdiz.zadaca.mvc.controller.impl;
 
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import uzdiz.zadaca.ComparatorThread;
 import uzdiz.zadaca.facade.Comparator;
 import uzdiz.zadaca.facade.FileManager;
 import uzdiz.zadaca.listener.OnDataLoaded;
 import uzdiz.zadaca.memento.ElementCareTaker;
-import uzdiz.zadaca.memento.ElementMemento;
 import uzdiz.zadaca.mvc.controller.WindowController;
 import uzdiz.zadaca.mvc.model.Arguments;
 import uzdiz.zadaca.mvc.model.Element;
@@ -127,17 +128,51 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
     public void selectCommandSix(int n) {
         ElementCareTaker careTaker = ElementCareTaker.getInstance();
         if ((n - 1) <= careTaker.getMementoList().size()) {
-            Element selectedElement = careTaker.getMementoList().get(n-1).getState();
+            Element selectedElement = careTaker.getMementoList().get(n - 1).getState();
             this.model = selectedElement;
-            
+
             view.clearScreen();
             view.rewriteScreen();
             view.setCusrosrPosition(2, 2);
             view.showMessage("Stanje strukture s rednim brojem " + n + " postaje novo trenutno stanje strukture");
         }
+
+        finished();
+    }
+
+    @Override
+    public void selectCommandSeven(int n) {
+        ElementCareTaker careTaker = ElementCareTaker.getInstance();
+        Element compareElement = careTaker.getMementoList().get(n - 1).getState();
+
+        Comparator comparator = new Comparator(view, arguments);
+        comparator.setCommand(7);
+        comparator.setStates(model, compareElement);
         
+        comparator.checkForChanges();
         finished();
 
+    }
+
+    @Override
+    public void selectCommandEight() {
+        ElementCareTaker careTaker = ElementCareTaker.getInstance();
+        careTaker.clearStates();
+        
+        FileManager manager = new FileManager();
+        Element rootElement = manager.listDirectory(arguments.getRootDirectory(), null);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        rootElement.setStoreDate(dateFormat.format(date));
+        manager.saveStructure(rootElement);
+        
+        this.model = rootElement;
+        view.clearScreen();
+        view.rewriteScreen();
+        view.setCusrosrPosition(2, 2);
+        view.showMessage("Struktura je ponovno ucitana");
+        finished();
+        
     }
 
 }

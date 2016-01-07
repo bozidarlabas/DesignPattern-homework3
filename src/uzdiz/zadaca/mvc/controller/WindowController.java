@@ -28,4 +28,8 @@ public interface WindowController {
     
     public void selectCommandSix(int n);
     
+    public void selectCommandSeven(int n);
+    
+    public void selectCommandEight();
+    
 }

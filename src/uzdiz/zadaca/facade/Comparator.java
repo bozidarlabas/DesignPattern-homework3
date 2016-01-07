@@ -36,6 +36,7 @@ public class Comparator {
     private BaseView view;
     private ArrayList<String> opis;
     private boolean saveStructure;
+    private int command;
 
     public Comparator(BaseView view, Arguments argument) {
         ElementCareTaker careTaker = ElementCareTaker.getInstance();
@@ -44,6 +45,12 @@ public class Comparator {
         this. opis = new ArrayList<>();
     }
     
+    public void setStates(Element element, Element compareElement){
+        this.currentStoredState = element;
+        this.realState = compareElement;
+    }
+    
+  
     public void setNewCurrentState(){
         ElementCareTaker careTaker = ElementCareTaker.getInstance();
         this.currentStoredState = careTaker.getLastFromMementoList().getState();
@@ -71,7 +78,7 @@ public class Comparator {
             //System.out.println("Naziv: " + elem.getDateCreated());
         }
         
-        if(saveStructure){
+        if(saveStructure && command == 3){
             new FileManager().saveStructure(realState);
             setNewCurrentState();
             saveStructure = false;
@@ -140,6 +147,10 @@ public class Comparator {
 
         }
 
+    }
+    
+    public void setCommand(int command){
+        this.command = command;
     }
     
     

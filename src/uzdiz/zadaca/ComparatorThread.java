@@ -40,6 +40,7 @@ public class ComparatorThread extends Thread {
     }
     
     private void doWork() {
+        comparator.setCommand(3);
         while (threadRunning) {
             //Facade design pattern
             comparator.setNewCurrentState();

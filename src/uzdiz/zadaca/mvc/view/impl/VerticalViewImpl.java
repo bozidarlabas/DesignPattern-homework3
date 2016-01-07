@@ -145,6 +145,7 @@ public class VerticalViewImpl extends BaseView {
         System.out.print("Unos podataka: ");
         String command = scanner.nextLine();
         String check = command.split(" ")[0];
+        int selectedElement;
         switch (check) {
             case "1":
                 controller.selectCommandOne();
@@ -162,10 +163,17 @@ public class VerticalViewImpl extends BaseView {
                  controller.selectCommandFive();
                  break;
              case "6":
-                 int selectedElement = Integer.parseInt(command.split(" ")[1]);
+                 selectedElement = Integer.parseInt(command.split(" ")[1]);
                  controller.selectCommandSix(selectedElement);
                  break;
-              
+             case "7":
+                 selectedElement = Integer.parseInt(command.split(" ")[1]);
+                 controller.selectCommandSeven(selectedElement);
+                 break;
+             case "8":
+                 controller.selectCommandEight();
+                 break;
+                 
         }
 
     }
