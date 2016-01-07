@@ -18,7 +18,7 @@ public class ElementCareTaker {
 
     private List<ElementMemento> mementoList = new ArrayList();
 
-    private ElementCareTaker() {
+    public ElementCareTaker() {
     }
 
     public static ElementCareTaker getInstance() {
@@ -31,6 +31,10 @@ public class ElementCareTaker {
 
     public List<ElementMemento> getMementoList() {
         return mementoList;
+    }
+
+    public ElementMemento getLastFromMementoList() {
+        return mementoList.get(mementoList.size() - 1);
     }
 
 }

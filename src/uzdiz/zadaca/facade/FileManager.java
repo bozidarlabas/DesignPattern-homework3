@@ -68,7 +68,7 @@ public class FileManager {
         directorySize = 0;
 
         if (parrent == null) {
-            rootElement.setName(folder.getAbsolutePath());
+            rootElement.setName("root");
             rootElement.setType(Constants.DIRECTORY);
             rootElement.setLevel(level);
         }
@@ -223,5 +223,6 @@ public class FileManager {
         ElementCareTaker careTaker = ElementCareTaker.getInstance();
         careTaker.add(originator.saveStateToMemento());
     }
+    
 
 }

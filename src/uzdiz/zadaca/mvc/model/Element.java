@@ -6,6 +6,7 @@
 package uzdiz.zadaca.mvc.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import uzdiz.zadaca.facade.iterator.Container;
 import uzdiz.zadaca.facade.iterator.Iterator;
@@ -23,6 +24,7 @@ public class Element implements Container{
     private long size;
     private ArrayList<Element> leaf;
     private int level;
+    private String storeDate;
     
     public Element(){
         leaf = new ArrayList<>();
@@ -83,6 +85,16 @@ public class Element implements Container{
     public void setLevel(int level) {
         this.level = level;
     }
+
+    public String getStoreDate() {
+        return storeDate;
+    }
+
+    public void setStoreDate(String storeDate) {
+        this.storeDate = storeDate;
+    }
+    
+    
     
     
 

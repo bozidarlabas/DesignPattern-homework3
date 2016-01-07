@@ -5,8 +5,12 @@
  */
 package uzdiz.zadaca.mvc.view.impl;
 
+import java.util.List;
+import uzdiz.zadaca.memento.ElementCareTaker;
+import uzdiz.zadaca.memento.ElementMemento;
 import uzdiz.zadaca.mvc.controller.WindowController;
 import uzdiz.zadaca.mvc.model.Element;
+import uzdiz.zadaca.mvc.model.Promjena;
 import uzdiz.zadaca.utils.Constants;
 
 /**
@@ -40,17 +44,18 @@ public class VerticalViewImpl extends BaseView {
     }
 
     int newLine = 0;
-    
+
     @Override
     public void showDataOnLeftWindow(Element element, int indent, int positionY, boolean endOfScreen) {
         setCusrosrPosition(2, positionY + newLine);
-       boolean indentText = false;
+        boolean indentText = false;
 
         StringBuilder sb = new StringBuilder();
 
         sb.append(getIndentString(indent, "|"));
         sb.append("+--");
         sb.append(element.getName());
+        sb.append(" - ").append(element.getLevel());
 
         if (sb.length() >= ((columnNumber / 2) - 2)) {
             while (sb.length() > 0) {
@@ -62,7 +67,7 @@ public class VerticalViewImpl extends BaseView {
                     setCusrosrPosition(2, positionY + newLine);
                     sb.delete(0, (columnNumber / 2) - 2);
                 } else {
-                    if(indentText){
+                    if (indentText) {
                         indentText = false;
                         System.out.print(getIndentString(indent, " "));
                     }
@@ -95,12 +100,38 @@ public class VerticalViewImpl extends BaseView {
 
     @Override
     public void showDataOnRightWindow(int createdDirectoriesNum, int cretedFilesNum, long size, int positionY) {
+
         setCusrosrPosition((columnNumber / 2) + 1, 2);
         System.out.println(Constants.CREATED_DIR + createdDirectoriesNum);
         setCusrosrPosition((columnNumber / 2) + 1, 3);
         System.out.println(Constants.CREATED_FILES + cretedFilesNum);
         setCusrosrPosition((columnNumber / 2) + 1, 4);
         System.out.println(Constants.SIZE + size + " B");
+    }
+
+    @Override
+    public void showPromjene(Promjena promjene, int j) {
+        clearScreen();
+        rewriteScreen();
+        
+        setCusrosrPosition((columnNumber / 2) + 1, (j + 2));
+
+        System.out.println("Vrijeme promjene: " + promjene.getVrijeme());
+        
+        
+        setCusrosrPosition((columnNumber / 2) + 1, (j + 3));
+        System.out.println("Opis promjene");
+        setCusrosrPosition((columnNumber / 2) + 1, (j + 4));
+        System.out.println("_____________");
+        //System.out.println("Naziv elementa   " + promjene.getNazivElementa());
+        int i = 0;
+        for (String opis : promjene.getOpis()) {
+            i++;
+            setCusrosrPosition((columnNumber / 2) + 1, (5 + j + i));
+            System.out.println(opis);
+        }
+        setCusrosrPosition(3, (rowNumber + 1));
+        System.out.print("Unos podataka: ");
     }
 
     @Override
@@ -112,17 +143,29 @@ public class VerticalViewImpl extends BaseView {
     public void onEnterPressed() {
         setCusrosrPosition(3, (rowNumber + 1));
         System.out.print("Unos podataka: ");
-        int command = Integer.parseInt(scanner.nextLine());
-        switch (command) {
-            case 1:
+        String command = scanner.nextLine();
+        String check = command.split(" ")[0];
+        switch (check) {
+            case "1":
                 controller.selectCommandOne();
                 break;
-            case 2:
+            case "2":
                 controller.selectCommandTwo();
                 break;
-            case 3: 
+            case "3":
                 controller.selectCommandThree();
                 break;
+             case "4":
+                controller.selectCommandFour();
+                break;
+             case "5":
+                 controller.selectCommandFive();
+                 break;
+             case "6":
+                 int selectedElement = Integer.parseInt(command.split(" ")[1]);
+                 controller.selectCommandSix(selectedElement);
+                 break;
+              
         }
 
     }
@@ -172,6 +215,33 @@ public class VerticalViewImpl extends BaseView {
             rewriteScreen();
             setCusrosrPosition(2, positionY + 1);
         }
+    }
+
+    @Override
+    public void showAllStoredStates() {
+        clearScreen();
+        rewriteScreen();
+        setCusrosrPosition(2, 2);
+        
+        ElementCareTaker careTaker = ElementCareTaker.getInstance();
+        List<ElementMemento> mementoList= careTaker.getMementoList();
+        int i = 0;
+        for(ElementMemento memento : mementoList){
+            i++;
+            Element element = memento.getState();
+            System.out.println("|Redni broj: " + i);
+            if(element.getStoreDate() != null){
+                System.out.println("|Vrijeme spremanja: " + element.getStoreDate());
+            }
+        }
+        
+        finished();
+        
+    }
+
+    @Override
+    public void showMessage(String message) {
+         System.out.println(message);
     }
 
 }

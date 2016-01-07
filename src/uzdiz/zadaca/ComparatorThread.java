@@ -5,8 +5,10 @@
  */
 package uzdiz.zadaca;
 
+import static java.lang.Thread.sleep;
 import uzdiz.zadaca.facade.Comparator;
 import uzdiz.zadaca.facade.FileManager;
+import uzdiz.zadaca.mvc.view.impl.BaseView;
 import uzdiz.zadaca.registry.Registry;
 
 /**
@@ -34,20 +36,21 @@ public class ComparatorThread extends Thread {
     @Override
     public void start() {
         super.start();
-        System.out.println("Start thread");
+        System.out.println("Dretva je startana");
     }
     
     private void doWork() {
         while (threadRunning) {
             //Facade design pattern
+            comparator.setNewCurrentState();
             comparator.fetchCurrentFilesystemState();
             comparator.checkForChanges();
-            
             waitInterval(seconds);
         }
     }
     
     public void stopThread() {
+        
         this.threadRunning = false;
         this.interrupt();
         

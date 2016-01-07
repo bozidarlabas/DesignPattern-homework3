@@ -24,4 +24,8 @@ public interface WindowController {
     
     public void selectCommandFour();
     
+    public void selectCommandFive();
+    
+    public void selectCommandSix(int n);
+    
 }

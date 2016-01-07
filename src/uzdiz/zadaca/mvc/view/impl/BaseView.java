@@ -10,6 +10,7 @@ import uzdiz.zadaca.facade.FileManager;
 import uzdiz.zadaca.mvc.controller.WindowController;
 import uzdiz.zadaca.mvc.controller.impl.WindowControllerImpl;
 import uzdiz.zadaca.mvc.model.Element;
+import uzdiz.zadaca.mvc.model.Promjena;
 import uzdiz.zadaca.utils.Constants;
 import uzdiz.zadaca.registry.Registry;
 
@@ -39,9 +40,15 @@ public abstract class BaseView {
 
     public abstract void showAllData(Element element, int indent, int positionY, boolean endOfScreen);
     
+    public abstract void showPromjene(Promjena promjene, int j );
+    
     public abstract void finished();
     
     public abstract void setController(WindowController controller);
+    
+    public abstract void showAllStoredStates();
+    
+    public abstract void showMessage(String message);
     
     public void setRegistry(Registry registry){
         this.registry = registry;
