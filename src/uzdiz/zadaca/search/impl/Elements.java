@@ -20,8 +20,7 @@ public class Elements implements ElementVisited {
     Element rootElement;
     
     public Elements (Element rootElement) {
-        this.rootElement = rootElement;
-        
+        this.rootElement = rootElement;        
     }
     
     private void iterate(Element element, ElementVisitor visitor) {
@@ -37,5 +36,6 @@ public class Elements implements ElementVisited {
     @Override
     public void accept(ElementVisitor visitor) {
         iterate(rootElement, visitor);
+        visitor.visit(this);
     }    
 }

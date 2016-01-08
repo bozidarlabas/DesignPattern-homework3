@@ -5,10 +5,14 @@
  */
 package uzdiz.zadaca.search;
 
+import uzdiz.zadaca.mvc.model.Element;
+import uzdiz.zadaca.search.impl.Elements;
+
 /**
  *
  * @author Basic
  */
 public interface ElementVisitor {
-    public void visit(ElementVisited element);
+    public void visit(Element element);
+    public void visit(Elements elements);
 }

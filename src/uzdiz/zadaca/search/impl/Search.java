@@ -29,7 +29,7 @@ public class Search implements ElementVisitor {
     }
     
     @Override
-    public void visit(ElementVisited element) {
+    public void visit(Element element) {
         Element elem = (Element)element;
         if(elem.getName().equals(searched)){
             if (elem.getType().equals(Constants.DIRECTORY)) {
@@ -39,6 +39,16 @@ public class Search implements ElementVisitor {
             }
             printer.print(elem, view);
         }
+    }
+    
+    @Override 
+    public void visit(Elements elements) {
+        System.out.print(Constants.ANSI_ESC + "1B");
+        // always stops at the beginning of line
+        System.out.print(Constants.ANSI_ESC + "1000D");
+        System.out.print(Constants.ANSI_ESC + "1C");
+        
+        System.out.print("Pretraga završena!");
     }
     
     public String getSearched() {
