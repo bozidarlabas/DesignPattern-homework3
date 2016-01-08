@@ -186,7 +186,7 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
         view.show(2, 2, 32, "Tražim \"" + searched + "\"...");
 
         Elements elements = new Elements(model);
-        elements.accept(new Search(searched, view));
+        elements.accept(new Search(searched, view, model));
 
         view.finished();
 
