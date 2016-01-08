@@ -57,7 +57,7 @@ public class HorizontalViewImpl extends BaseView {
 
     @Override
     public void showDataOnRightWindow(int createdDirectoriesNum, int cretedFilesNum, long size, int positionY) {
-
+        System.out.println("\033[0m");
         setCusrosrPosition(2, (rowNumber / 2) + 1);
         System.out.println(Constants.CREATED_DIR + createdDirectoriesNum);
         setCusrosrPosition(2, (rowNumber / 2) + 2);
@@ -112,6 +112,11 @@ public class HorizontalViewImpl extends BaseView {
 
         sb.append(getIndentString(indent, "|"));
         sb.append("+--");
+        if (element.getType().equals(Constants.DIRECTORY)) {
+            sb.append("\033[31m");
+        } else {
+            sb.append("\033[33m");
+        }
         sb.append(element.getName());
 
         if (sb.length() >= (columnNumber - 2)) {
