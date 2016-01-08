@@ -5,13 +5,10 @@
  */
 package uzdiz.zadaca.search;
 
-import uzdiz.zadaca.mvc.model.Element;
-import uzdiz.zadaca.mvc.view.impl.BaseView;
-
 /**
  *
  * @author Basic
  */
-public interface SearchPrinterLayer02 {
-    public void print(Element element, BaseView view);
+public interface Layer01 {
+    public String service(String name);
 }
