@@ -6,6 +6,7 @@
 package uzdiz.zadaca;
 
 import static java.lang.Thread.sleep;
+import java.util.Date;
 import uzdiz.zadaca.facade.Comparator;
 import uzdiz.zadaca.facade.FileManager;
 import uzdiz.zadaca.mvc.view.impl.BaseView;
@@ -19,12 +20,14 @@ public class ComparatorThread extends Thread {
     
     private boolean threadRunning = true;
     private final int seconds;
-    private final FileManager manager;
+    private int currentDirNum, currentFilesNum;
     private Comparator comparator;
+    Date checkChangedDate = new Date();
     
-    public ComparatorThread(FileManager manager, Comparator comparator, int seconds) {
+    public ComparatorThread(int currentDirNum, int currentFilesNum, Comparator comparator, int seconds) {
         this.seconds = seconds;
-        this.manager = manager;
+        this.currentDirNum = currentDirNum;
+        this.currentFilesNum = currentFilesNum;
         this.comparator = comparator;
     }
     
@@ -41,12 +44,20 @@ public class ComparatorThread extends Thread {
     
     private void doWork() {
         comparator.setCommand(3);
+        comparator.setCurrentSizes(currentDirNum, currentFilesNum);
         while (threadRunning) {
+            
             //Facade design pattern
+            
             comparator.setNewCurrentState();
+            comparator.setDate(checkChangedDate);
             comparator.fetchCurrentFilesystemState();
+           // comparator.checkAddChange();
             comparator.checkForChanges();
+          
             waitInterval(seconds);
+            checkChangedDate = new Date();
+            
         }
     }
     

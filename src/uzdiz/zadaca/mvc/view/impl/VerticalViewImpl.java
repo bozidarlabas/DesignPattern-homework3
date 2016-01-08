@@ -5,6 +5,7 @@
  */
 package uzdiz.zadaca.mvc.view.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import uzdiz.zadaca.memento.ElementCareTaker;
 import uzdiz.zadaca.memento.ElementMemento;
@@ -55,7 +56,6 @@ public class VerticalViewImpl extends BaseView {
         sb.append(getIndentString(indent, "|"));
         sb.append("+--");
         sb.append(element.getName());
-        sb.append(" - ").append(element.getLevel());
 
         if (sb.length() >= ((columnNumber / 2) - 2)) {
             while (sb.length() > 0) {
@@ -110,24 +110,24 @@ public class VerticalViewImpl extends BaseView {
     }
 
     @Override
-    public void showPromjene(Promjena promjene, int j) {
+    public void showPromjene(ArrayList<Promjena> promjene, int j) {
         clearScreen();
         rewriteScreen();
 
-        setCusrosrPosition((columnNumber / 2) + 1, (j + 2));
+        setCusrosrPosition((columnNumber / 2) + 1, 2);
 
-        System.out.println("Vrijeme promjene: " + promjene.getVrijeme());
+        System.out.println("Vrijeme promjene: " + promjene.get(0).getVrijeme());
 
-        setCusrosrPosition((columnNumber / 2) + 1, (j + 3));
+        setCusrosrPosition((columnNumber / 2) + 1, 3);
         System.out.println("Opis promjene");
-        setCusrosrPosition((columnNumber / 2) + 1, (j + 4));
+        setCusrosrPosition((columnNumber / 2) + 1, 4);
         System.out.println("_____________");
         //System.out.println("Naziv elementa   " + promjene.getNazivElementa());
         int i = 0;
-        for (String opis : promjene.getOpis()) {
+        for (Promjena promjena : promjene) {
             i++;
-            setCusrosrPosition((columnNumber / 2) + 1, (5 + j + i));
-            System.out.println(opis);
+            setCusrosrPosition((columnNumber / 2) + 1, (4 + i));
+            System.out.println(promjena.getOpis());
         }
         setCusrosrPosition(3, (rowNumber + 1));
         System.out.print("Unos podataka: ");

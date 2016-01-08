@@ -94,6 +94,7 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
         view.rewriteScreen();
         view.setCusrosrPosition(2, 2);
         display = Constants.STRUCTURE;
+        manager.resetValues();
         manager.printDirectoryTree(model, display);
     }
 
@@ -104,7 +105,7 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
         view.setCusrosrPosition(2, 2);
         display = Constants.STRUCTURE;
         Comparator comparator = new Comparator(view, arguments); //TODO change from 0 to n
-        this.thread = new ComparatorThread(manager, comparator, arguments.getSeconds());
+        this.thread = new ComparatorThread(manager.createdDirectoriesNum, manager.createdFilesNum, comparator, arguments.getSeconds());
         thread.startThread();
         view.finished();
         //display = Constants.THREAD_START;
@@ -166,6 +167,7 @@ public class WindowControllerImpl implements WindowController, OnDataLoaded {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         rootElement.setStoreDate(dateFormat.format(date));
+        rootElement.setName(arguments.getRootDirectory());
         manager.saveStructure(rootElement);
 
         this.model = rootElement;

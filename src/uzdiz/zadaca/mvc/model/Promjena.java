@@ -16,7 +16,7 @@ public class Promjena {
     
     private int rdBroj=0;
     private String vrijeme;
-    private ArrayList<String> opis;
+    private String opis;
     private String nazivElementa;
     private String putanja;
     private ArrayList<Promjena> leaf;
@@ -66,11 +66,11 @@ public class Promjena {
         this.vrijeme = vrijeme;
     }
 
-    public ArrayList<String> getOpis() {
+    public String getOpis() {
         return opis;
     }
 
-    public void setOpis(ArrayList<String> opis) {
+    public void setOpis(String opis) {
         this.opis = opis;
     }
     

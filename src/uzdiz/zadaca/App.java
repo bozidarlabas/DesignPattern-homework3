@@ -24,6 +24,7 @@ public class App {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         rootElement.setStoreDate(dateFormat.format(date));
+        rootElement.setName(args[3]);
         
         
         //Register all services and return registry
@@ -35,6 +36,7 @@ public class App {
         WindowController controller = (WindowControllerImpl) registry.resolve("windowController");
         controller.showWindow();
         controller.showData();
+       
 
       
     }

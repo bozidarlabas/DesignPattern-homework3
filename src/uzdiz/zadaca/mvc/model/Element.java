@@ -27,6 +27,7 @@ public class Element implements Container, ElementVisited{
     private ArrayList<Element> leaf;
     private int level;
     private String storeDate;
+    private boolean newElement;
     
     public Element(){
         leaf = new ArrayList<>();

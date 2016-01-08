@@ -11,6 +11,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import uzdiz.zadaca.facade.iterator.Iterator;
 import uzdiz.zadaca.listener.OnDataLoaded;
 import uzdiz.zadaca.memento.ElementCareTaker;
@@ -32,7 +35,7 @@ public class FileManager {
     private OnDataLoaded listener;
     private int positionYLeftWindow = 1;
     private int positionYRightWindow = 1;
-    public int createdDirectoriesNum, createdFilesNum;
+    public int createdDirectoriesNum = -1, createdFilesNum;
     private long size;
     private Arguments arguments;
     private boolean isEndOfFile = false;
@@ -43,10 +46,14 @@ public class FileManager {
         rootElement = new Element();
         this.listener = listener;
         this.arguments = (Arguments) registry.resolve("arguments");
+        dir = 0;
+        file = 0;
     }
 
     public FileManager() {
         rootElement = new Element();
+        dir = 0;
+        file = 0;
     }
 
     long directorySize;
@@ -55,12 +62,16 @@ public class FileManager {
         this.registry = registry;
     }
 
+    int dir;
+    int file;
+
     /**
      * List files and store this in model Element as Composite
      *
      * @param path
      * @param parrent
      */
+
     public Element listDirectory(String path, Element parrent) {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
@@ -68,9 +79,10 @@ public class FileManager {
         directorySize = 0;
 
         if (parrent == null) {
-            rootElement.setName("root");
             rootElement.setType(Constants.DIRECTORY);
             rootElement.setLevel(level);
+            rootElement.setDateCreated(getCreationTime(folder));
+            rootElement.setDateChanged(getModifiedTime(folder));
         }
 
         //Iterate through directory
@@ -83,16 +95,18 @@ public class FileManager {
             model.setDateChanged(getModifiedTime(element));
 
             if (element.isDirectory()) {
+
                 //System.out.println("DIREKTORIJ");
                 listDirectory(element.getAbsolutePath(), model);
                 model.setType(Constants.DIRECTORY);
-
+                dir++;
                 model.setLevel(level);
                 model.setSize(directorySize);
             } else if (element.isFile()) {
                 model.setType(Constants.FILE);
                 model.setSize(element.length());
                 directorySize += model.getSize();
+                file++;
             }
 
             if (parrent == null) {
@@ -110,24 +124,30 @@ public class FileManager {
 
     private String getCreationTime(File element) {
         Path path = Paths.get(element.getAbsolutePath());
-        String dateCreated = "";
+        String dateCreatedString = "";
         try {
             BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
-            dateCreated = attr.creationTime().toString();
+            FileTime dateCreated = attr.creationTime();
+
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dateCreatedString = df.format(dateCreated.toMillis());
         } catch (IOException ex) {
         }
-        return dateCreated;
+        return dateCreatedString;
     }
 
     private String getModifiedTime(File element) {
         Path path = Paths.get(element.getAbsolutePath());
-        String dateModified = "";
+        String dateCreatedString = "";
         try {
             BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
-            dateModified = attr.lastModifiedTime().toString();
+            FileTime dateCreated = attr.lastModifiedTime();
+
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dateCreatedString = df.format(dateCreated.toMillis());
         } catch (IOException ex) {
         }
-        return dateModified;
+        return dateCreatedString;
     }
 
     public Element getElementModel() {
@@ -135,6 +155,7 @@ public class FileManager {
     }
 
     public void printDirectoryTree(Element element, String display) {
+       
         this.size = element.getSize();
         this.display = display;
 
@@ -235,6 +256,19 @@ public class FileManager {
         originator.setState(element);
         ElementCareTaker careTaker = ElementCareTaker.getInstance();
         careTaker.add(originator.saveStateToMemento());
+    }
+
+    public int getDir() {
+        return dir;
+    }
+
+    public int getFile() {
+        return file;
+    }
+    
+    public void resetValues(){
+        this. createdDirectoriesNum = -1;
+        this.createdFilesNum = 0;
     }
 
 }

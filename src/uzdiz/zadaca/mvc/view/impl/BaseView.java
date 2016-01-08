@@ -5,6 +5,7 @@
  */
 package uzdiz.zadaca.mvc.view.impl;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import uzdiz.zadaca.facade.FileManager;
 import uzdiz.zadaca.mvc.controller.WindowController;
@@ -40,7 +41,7 @@ public abstract class BaseView {
 
     public abstract void showAllData(Element element, int indent, int positionY, boolean endOfScreen);
     
-    public abstract void showPromjene(Promjena promjene, int j );
+    public abstract void showPromjene(ArrayList<Promjena> promjene, int j );
     
     public abstract void finished();
     
