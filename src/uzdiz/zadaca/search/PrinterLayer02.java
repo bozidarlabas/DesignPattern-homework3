@@ -6,13 +6,14 @@
 package uzdiz.zadaca.search;
 
 import uzdiz.zadaca.mvc.model.Element;
-import uzdiz.zadaca.search.impl.Elements;
+import uzdiz.zadaca.mvc.view.impl.BaseView;
 
 /**
  *
  * @author Basic
  */
-public interface ElementVisitor {
-    public void visit(Element element);
-    public void visit(Elements elements);
+public interface PrinterLayer02 {
+    public void setLowerLayer(Layer01 L01);
+    public void print(Element element, BaseView view);
+    public void printEndSearch();
 }

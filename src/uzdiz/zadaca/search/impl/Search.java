@@ -5,12 +5,10 @@
  */
 package uzdiz.zadaca.search.impl;
 
-import uzdiz.zadaca.search.SearchPrinterLayer02;
 import uzdiz.zadaca.mvc.model.Element;
 import uzdiz.zadaca.mvc.view.impl.BaseView;
-import uzdiz.zadaca.utils.Constants;
-import uzdiz.zadaca.search.ElementVisited;
 import uzdiz.zadaca.search.ElementVisitor;
+import uzdiz.zadaca.search.PrinterLayer02;
 
 /**
  *
@@ -21,24 +19,29 @@ public class Search implements ElementVisitor {
 
     private String searched;
     private BaseView view;
-    private SearchPrinterLayer02 printer;
+    private PrinterLayer02 printer;
+    private Element rootElement;
     
-    public Search (String searched, BaseView view) {
+    public Search (String searched, BaseView view, Element rootElement) {
         this.searched = searched;
         this.view = view;
+        this.rootElement = rootElement;
+        this.printer = new Printer();
     }
     
     @Override
-    public void visit(ElementVisited element) {
+    public void visit(Element element) {
         Element elem = (Element)element;
         if(elem.getName().equals(searched)){
-            if (elem.getType().equals(Constants.DIRECTORY)) {
-                printer = new SearchDirectoryPrinter();
-            } else {
-                printer = new SearchFilePrinter();
-            }
+            FileDirTracker fdt = new FileDirTracker(rootElement);
+            printer.setLowerLayer(fdt);
             printer.print(elem, view);
         }
+    }
+    
+    @Override 
+    public void visit(Elements elements) {
+        printer.printEndSearch();
     }
     
     public String getSearched() {
