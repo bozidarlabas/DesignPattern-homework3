@@ -28,12 +28,18 @@ public class Printer implements PrinterLayer02 {
         }
     
         String result = level01.service(element.getName());
+        int winLimit = view.columnNumber;
+        if (view.getFrameSeparation().equals("V")) {
+            winLimit = view.columnNumber / 2;
+        }
         
         StringBuilder sb = new StringBuilder(result);
-        if (sb.length() >= ((view.columnNumber / 2) - 4)) {
-            view.show(lineCounter++, 4, 32, sb.substring(0, (view.columnNumber / 2) - 4));
-            sb.delete(0, (view.columnNumber / 2) - 4);
+        if (sb.length() >= (winLimit - 4)) {
+            view.show(lineCounter++, 4, 32, sb.substring(0, winLimit - 4));
+            sb.delete(0, winLimit - 4);
             view.show(lineCounter++, 4, 32, sb.toString());
+        } else {
+            view.show(lineCounter++, 4, 32, result);
         }
         
         view.show(lineCounter++, 4, 32, "Kreirano: " + element.getDateCreated());

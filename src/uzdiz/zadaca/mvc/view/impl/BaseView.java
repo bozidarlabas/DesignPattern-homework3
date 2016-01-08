@@ -129,4 +129,10 @@ public abstract class BaseView {
 
     }
 
+    public String getFrameSeparation() {
+        return frameSeparation;
+    }
+    
+    
+
 }
